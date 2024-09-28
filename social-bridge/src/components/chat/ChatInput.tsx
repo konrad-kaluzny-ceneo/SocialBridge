@@ -5,15 +5,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { SendIcon } from "lucide-react";
-import { ChatAiContext } from "@/components/map/organization/ChatAiContext";
+import { ChatContext } from "@/components/chat/ChatContext";
 
 type Props = {
   isDisabled: boolean;
 };
 
-export default function ChatAiInput({ isDisabled }: Props) {
+export default function ChatInput({ isDisabled }: Props) {
   const { addMessage, handleInputChange, isLoading, message } =
-    React.useContext(ChatAiContext);
+    React.useContext(ChatContext);
 
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   return (

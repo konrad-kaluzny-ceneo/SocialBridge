@@ -10,7 +10,7 @@ type Props = {
   isNextMessageSamePerson: boolean;
 };
 
-const ChatAiMessage = forwardRef<HTMLDivElement, Props>(
+const ChatMessage = forwardRef<HTMLDivElement, Props>(
   ({ message, isNextMessageSamePerson }, ref) => {
     return (
       <div
@@ -97,6 +97,6 @@ const ChatAiMessage = forwardRef<HTMLDivElement, Props>(
   },
 );
 
-ChatAiMessage.displayName = "ChatAiMessage";
+ChatMessage.displayName = "ChatMessage";
 
-export default ChatAiMessage;
+export default ChatMessage;

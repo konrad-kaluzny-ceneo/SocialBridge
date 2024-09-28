@@ -4,18 +4,15 @@ import { trpc } from "@/server/client";
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
 import { cn } from "@/lib/utils";
 import { Loader2Icon, MessageSquareIcon } from "lucide-react";
-import React, { useContext } from "react";
-import Message from "./ChatAiMessage";
-import { ChatAiContext } from "@/components/map/organization/ChatAiContext";
+import Message from "./ChatMessage";
 import { useIntersection } from "@mantine/hooks";
+import { useEffect, useRef } from "react";
 
 type Props = {
   chatId: string;
 };
 
-export default function ChatAiMessages({ chatId }: Props) {
-  const { isLoading: isAiThinking } = useContext(ChatAiContext);
-
+export default function ChatMessages({ chatId }: Props) {
   const { data, isLoading, fetchNextPage } =
     trpc.ai.getMessages.useInfiniteQuery(
       {
@@ -42,18 +39,15 @@ export default function ChatAiMessages({ chatId }: Props) {
     ),
   };
 
-  const combinedMessages = [
-    ...(isAiThinking ? [loadingMeessage] : []),
-    ...messages,
-  ];
+  const combinedMessages = [...messages];
 
-  const lastMessageRef = React.useRef<HTMLDivElement>(null);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
   const { ref, entry } = useIntersection({
     root: lastMessageRef.current,
     threshold: 1,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (entry?.isIntersecting) {
       fetchNextPage();
     }

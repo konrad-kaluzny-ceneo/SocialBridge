@@ -6,6 +6,7 @@ import {
   ChatCreateValidator,
   GetChatValidator,
   GetMessagesValidator,
+  SendMessageValidator,
 } from "@/validators/chat";
 
 export const chatRouter = router({
@@ -185,5 +186,44 @@ export const chatRouter = router({
           messages: messages,
         };
       }
+    }),
+
+  sendMessage: privateProcedure
+    .input(SendMessageValidator)
+    .mutation(async ({ ctx, input }) => {
+      const { user } = ctx;
+      const { chatId, message } = input;
+
+      const chat = await db.chat.findFirst({
+        where: { id: chatId },
+        include: {
+          Partnership: true,
+        },
+      });
+
+      if (!chat)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Chat nie został znaleziony",
+        });
+
+      const newMessage = await db.message.create({
+        data: {
+          text: message,
+          isUserMessage: true,
+          Chat: {
+            connect: {
+              id: chatId,
+            },
+          },
+          User: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+
+      return newMessage;
     }),
 });

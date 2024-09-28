@@ -1,21 +1,16 @@
 "use client";
 
-import { ChatAiContextProvider } from "@/components/map/organization/ChatAiContext";
-import ChatAiMessages from "@/components/map/organization/ChatAiMessages";
-import ChatAiInput from "@/components/map/organization/ChatAiInput";
-import dynamic from "next/dynamic";
+import { ChatContextProvider } from "@/components/chat/ChatContext";
+import ChatMessages from "@/components/chat/ChatMessages";
+import ChatInput from "@/components/chat/ChatInput";
 import { useEffect, useState } from "react";
-
-const ChatAiMapRendererAiCoordinates = dynamic(
-  () => import("@/components/map/organization/ChatAiMapRendererAiCoordinates"),
-  { ssr: false },
-);
+import UserChatsList from "./UserChatsList";
 
 type Props = {
   chatId: string;
 };
 
-export default function ChatAiWrapper({ chatId }: Props) {
+export default function ChatWrapper({ chatId }: Props) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -27,23 +22,23 @@ export default function ChatAiWrapper({ chatId }: Props) {
   }
 
   return (
-    <ChatAiContextProvider chatId={chatId}>
+    <ChatContextProvider chatId={chatId}>
       <div className="flex w-full flex-col md:flex-row">
         {/* left side */}
         <div className="w-full xl:w-2/3">
-          <ChatAiMapRendererAiCoordinates chatId={chatId} />
+          <UserChatsList />
         </div>
 
         {/* right side */}
         <div className="relative mt-3 flex h-[59vh] w-full md:h-[88vh] md:w-1/3">
           <div className="flex h-[47vh] w-full md:h-[78vh]">
-            <ChatAiMessages chatId={chatId} />
+            <ChatMessages chatId={chatId} />
           </div>
           <div className="absolute bottom-0 left-0 w-full p-4">
-            <ChatAiInput isDisabled={false} />
+            <ChatInput isDisabled={false} />
           </div>
         </div>
       </div>
-    </ChatAiContextProvider>
+    </ChatContextProvider>
   );
 }

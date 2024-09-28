@@ -2,7 +2,9 @@ import { z } from "zod";
 
 export const ChatCreateValidator = z.object({
   name: z.string().min(1, { message: "Chat name should be provided" }),
-  partnershipId: z.string().min(1, { message: "Partnership id should be provided" }),
+  partnershipId: z
+    .string()
+    .min(1, { message: "Partnership id should be provided" }),
 });
 
 export const GetChatValidator = z.object({
@@ -20,4 +22,8 @@ export const SendMessageValidator = z.object({
   message: z.string(),
 });
 
+export type SendMessageRequest = z.infer<typeof SendMessageValidator>;
+
 export type ChatCreateRequest = z.infer<typeof ChatCreateValidator>;
+
+export type GetMessagesRequest = z.infer<typeof GetMessagesValidator>;
