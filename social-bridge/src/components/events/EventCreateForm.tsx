@@ -112,7 +112,7 @@ export default function EventCreateForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={$Enums.EventType.GROUP_WORKSHOP}>
+                  <SelectItem value={$Enums.EventType.FUNDRAISER}>
                     {getEventTypeName($Enums.EventType.GROUP_WORKSHOP)}
                   </SelectItem>
                   <SelectItem value={$Enums.EventType.MENTORING}>

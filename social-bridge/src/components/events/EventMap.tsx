@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { trpc } from "@/server/client";
 import { MapLocation } from "@/types/mapLocation";
 
-const DynamicMap = dynamic(() => import("@/components/map/MapSingleLocation"), {
+const DynamicMap = dynamic(() => import("@/components/map/event/MapSingleLocation"), {
   ssr: false,
 });
 
@@ -22,6 +22,9 @@ export default function EventMap({ eventId }: Props) {
   if (isLoading) return null;
   if (error) return null;
   if (!event) return null;
+
+  if (!event.Address) return null;
+  if (!event.Address.lat || !event.Address.lng) return null;
 
   const MapLocation: MapLocation = {
     id: event.id,

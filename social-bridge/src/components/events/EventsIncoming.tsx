@@ -8,7 +8,9 @@ export default function EventsIncoming() {
     data: eventsDb,
     isLoading,
     isError,
-  } = trpc.events.getIncomingEvents.useQuery();
+  } = trpc.events.getEvents.useQuery({
+    incoming: true,
+  });
 
   if (isLoading) return null;
   if (isError) return null;

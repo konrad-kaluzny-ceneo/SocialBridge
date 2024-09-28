@@ -12,7 +12,7 @@ export default function EventsPublicList({ future }: EventsPublicListProps) {
     data: eventsDb,
     isLoading,
     isError,
-  } = trpc.events.getEvents.useQuery({ future });
+  } = trpc.events.getEvents.useQuery({ incoming: true });
 
   if (isLoading) return null;
   if (isError) return null;

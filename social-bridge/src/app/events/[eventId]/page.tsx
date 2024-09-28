@@ -2,7 +2,6 @@ import EventInfo from "@/components/events/EventInfo";
 import WrapperMaxWidth from "@/components/shared/WrapperMaxWidth";
 import { notFound } from "next/navigation";
 import EventPartners from "@/components/events/EventPartners";
-import ParticipantsToConfirm from "@/components/events/ParticipantsToConfirm";
 import { db } from "@/db";
 import EventHeader from "@/components/events/EventHeader";
 import EventMap from "@/components/events/EventMap";
@@ -48,8 +47,6 @@ export default async function EventPage({ params }: Props) {
       <EventInfo eventId={eventId} />
 
       <EventPartners eventId={eventId} />
-
-      {isOrganizer && <ParticipantsToConfirm eventId={eventId} />}
 
       <EventMap eventId={eventId} />
     </WrapperMaxWidth>

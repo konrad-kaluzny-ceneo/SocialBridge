@@ -409,6 +409,100 @@ async function main() {
       eventOrganizerId: businessBigOrganization.id,
     },
   });
+  const businessLogo1 = await prisma.photo.create({
+    data: {
+      url: "/images/business-meeting1.jpg",
+      key: "meeting1",
+      fileName: "meeting1.jpg",
+    },
+  });
+
+  const businessLogo2 = await prisma.photo.create({
+    data: {
+      url: "/images/it-workship2.jpg",
+      key: "it-workship2",
+      fileName: "it-workship2.jpg",
+    },
+  });
+  
+  const businessLogo3 = await prisma.photo.create({
+    data: {
+      url: "/images/hands3.jpg",
+      key: "logo3",
+      fileName: "logo3.jpg",
+    },
+  });
+
+  await prisma.organization.update({
+    where: {
+      id: businessBigOrganization.id,
+    },
+    data: {
+      Photos: {
+        connect: [businessLogo1],
+      },
+    },
+  });
+
+  await prisma.organization.update({
+    where: {
+      id: businessSmallOrganization.id,
+    },
+    data: {
+      Photos: {
+        connect: [businessLogo2],
+      },
+    },
+  });
+
+  await prisma.organization.update({
+    where: {
+      id: ngoOrganization.id,
+    },
+    data: {
+      Photos: {
+        connect: [businessLogo3],
+      },
+    },
+  });
+
+  const eventPhoto = await prisma.photo.create({
+    data: {
+      url: "/images/it-workship2.jpg",
+      key: "it-workship2",
+      fileName: "it-workship2.jpg",
+    },
+  });
+
+  await prisma.event.update({
+    where: {
+      id: event.id,
+    },
+    data: {
+      Photos: {
+        connect: [eventPhoto],
+      },
+    },
+  });
+
+  const eventPhoto2 = await prisma.photo.create({
+    data: {
+      url: "/images/it-workship2.jpg",
+      key: "it-workship2",
+      fileName: "it-workship2.jpg",
+    },
+  });
+
+  await prisma.event.update({
+    where: {
+      id: event2.id,
+    },
+    data: {
+      Photos: {
+        connect: [eventPhoto2],
+      },
+    },
+  });
 }
 
 main()

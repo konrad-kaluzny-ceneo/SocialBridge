@@ -8,7 +8,7 @@ export default function EventsLast() {
     data: eventsDb,
     isLoading,
     isError,
-  } = trpc.events.getLastEvents.useQuery();
+  } = trpc.events.getEvents.useQuery({ last: true });
 
   if (isLoading) return null;
   if (isError) return null;
