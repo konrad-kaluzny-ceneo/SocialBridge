@@ -99,13 +99,13 @@ export const chatRouter = router({
       const { cursor, chatId } = input;
       const limit = input.limit ?? INFINITE_QUERY_LIMIT;
 
-      console.log("chatId", chatId);
+      // console.log("chatId", chatId);
 
       const chat = await db.chat.findFirst({
         where: { id: chatId },
       });
 
-      console.log(chat);
+      // console.log(chat);
 
       if (!chat)
         throw new TRPCError({
@@ -133,7 +133,7 @@ export const chatRouter = router({
         },
       });
 
-      console.log(chatWithData);
+      // console.log(chatWithData);
 
       const isUserOrganizer = chatWithData?.Partnership.some((partnership) =>
         partnership.Organizer?.Team.some(

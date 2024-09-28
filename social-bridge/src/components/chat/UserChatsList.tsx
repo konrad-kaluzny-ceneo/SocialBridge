@@ -3,18 +3,13 @@
 import { trpc } from "@/server/client";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
+import Link from "next/link";
 export default function UserChatsList() {
   const { data: chats, isLoading, isError } = trpc.chat.getChats.useQuery();
 
   if (isLoading) return null;
   if (isError) return null;
   if (!chats || chats.length === 0) return null;
-
-  function handleChatClick(chatId: string | undefined) {
-    if (!chatId) return;
-    console.log(chatId);
-  }
 
   return (
     <Card className="h-full">
@@ -29,10 +24,10 @@ export default function UserChatsList() {
           )}
         >
           {chats.map((chat, index) => (
-            <div
+            <Link
               key={index}
               className="mb-2 cursor-pointer rounded-lg p-2 hover:bg-gray-100"
-              onClick={() => handleChatClick(chat?.id)}
+              href={`/chat/${chat?.id}`}
             >
               <h3 className="font-semibold">{chat?.title}</h3>
               <p className="text-sm text-gray-500">
@@ -40,7 +35,7 @@ export default function UserChatsList() {
                   ? new Date(chat.createdAt).toLocaleDateString()
                   : "Nieznana data"}
               </p>
-            </div>
+            </Link>
           ))}
         </div>
       </CardContent>

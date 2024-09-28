@@ -26,9 +26,27 @@ export type InitPartnershipProcessRequest = z.infer<
 >;
 
 export const GetOrganizationPartnersValidator = z.object({
-  organizationId: z.string().min(1, { message: "ID organizacji jest wymagane" }),
+  organizationId: z
+    .string()
+    .min(1, { message: "ID organizacji jest wymagane" }),
 });
 
 export type GetOrganizationPartnersRequest = z.infer<
   typeof GetOrganizationPartnersValidator
+>;
+
+export const AcceptPartnershipByChatValidator = z.object({
+  chatId: z.string().min(1, { message: "ID chatu jest wymagane" }),
+});
+
+export type AcceptPartnershipByChatRequest = z.infer<
+  typeof AcceptPartnershipByChatValidator
+>;
+
+export const UserCanAcceptPartnershipValidator = z.object({
+  chatId: z.string().min(1, { message: "ID chatu jest wymagane" }),
+});
+
+export type UserCanAcceptPartnershipRequest = z.infer<
+  typeof UserCanAcceptPartnershipValidator
 >;

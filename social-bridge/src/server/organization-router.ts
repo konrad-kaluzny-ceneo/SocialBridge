@@ -22,7 +22,7 @@ export const organizationRouter = router({
         });
       }
 
-      console.log(input);
+      // console.log(input);
 
       const {
         name,

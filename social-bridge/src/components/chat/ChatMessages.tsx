@@ -10,11 +10,12 @@ import { useEffect, useRef } from "react";
 
 type Props = {
   chatId: string;
+  userId: string;
 };
 
-export default function ChatMessages({ chatId }: Props) {
+export default function ChatMessages({ chatId, userId }: Props) {
   const { data, isLoading, fetchNextPage } =
-    trpc.ai.getMessages.useInfiniteQuery(
+    trpc.chat.getMessages.useInfiniteQuery(
       {
         chatId,
         limit: INFINITE_QUERY_LIMIT,
@@ -51,7 +52,7 @@ export default function ChatMessages({ chatId }: Props) {
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message, i) => {
           const isNextMessageSamePerson =
-            combinedMessages[i - 1]?.isUserMessage === message.isUserMessage;
+            combinedMessages[i - 1]?.User.id === message.User.id;
 
           if (i === combinedMessages.length - 1)
             return (
@@ -60,6 +61,7 @@ export default function ChatMessages({ chatId }: Props) {
                 key={message.id}
                 message={message}
                 isNextMessageSamePerson={isNextMessageSamePerson}
+                currentUserId={userId}
               />
             );
           else
@@ -68,6 +70,7 @@ export default function ChatMessages({ chatId }: Props) {
                 key={message.id}
                 message={message}
                 isNextMessageSamePerson={isNextMessageSamePerson}
+                currentUserId={userId}
               />
             );
         })

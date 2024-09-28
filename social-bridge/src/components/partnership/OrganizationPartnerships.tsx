@@ -2,6 +2,7 @@
 
 import { trpc } from "@/server/client";
 import InitPartnershipProcessDialog from "./InitPartnershipProcessDialog";
+import OrganizationRow from "../organization/OrganizationRow";
 
 type Props = {
   organizationId: string;
@@ -23,13 +24,15 @@ export default function OrganizationPartnerships({ organizationId }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-2xl font-bold">Aktywne współprace</p>
-      <div>
+      <div className="flex flex-col gap-4">
         {partners
           .filter((partner) => partner !== null)
           .map((partner) => (
-            <div key={partner.id}>
-              <p>{partner.name}</p>
-            </div>
+            <OrganizationRow
+              key={partner.id}
+              organization={partner}
+              showImages={true}
+            />
           ))}
       </div>
       <InitPartnershipProcessDialog organizationId={organizationId} />

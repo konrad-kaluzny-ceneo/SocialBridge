@@ -5,6 +5,8 @@ import {
   InitPartnershipProcessValidator,
   GetPartnershipRequestValidator,
   GetOrganizationPartnersValidator,
+  AcceptPartnershipByChatValidator,
+  UserCanAcceptPartnershipValidator,
 } from "@/validators/partnership";
 
 export const partnershipRouter = router({
@@ -71,6 +73,12 @@ export const partnershipRouter = router({
     .input(InitPartnershipProcessValidator)
     .mutation(async ({ ctx, input }) => {
       const { userId } = ctx;
+      const {
+        organizationId,
+        message,
+        givePartnershipTags,
+        searchPartnershipTags,
+      } = input;
 
       const userWithOrganization = await db.user.findUnique({
         where: { id: userId },
@@ -84,12 +92,16 @@ export const partnershipRouter = router({
         });
       }
 
-      const {
-        organizationId,
-        message,
-        givePartnershipTags,
-        searchPartnershipTags,
-      } = input;
+      const organization = await db.organization.findUnique({
+        where: { id: organizationId },
+      });
+
+      if (!organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja nie została znaleziona",
+        });
+      }
 
       const partnership = await db.partnership.create({
         data: {
@@ -103,7 +115,7 @@ export const partnershipRouter = router({
 
       const chat = await db.chat.create({
         data: {
-          title: `Propozycja współpracy między ${userWithOrganization.Organization.name} i ${organizationId}`,
+          title: `Propozycja współpracy między ${userWithOrganization.Organization.name} i ${organization.name}`,
         },
       });
 
@@ -125,5 +137,106 @@ export const partnershipRouter = router({
       });
 
       return chat;
+    }),
+
+  acceptPartnershipByChat: privateProcedure
+    .input(AcceptPartnershipByChatValidator)
+    .mutation(async ({ ctx, input }) => {
+      const { chatId } = input;
+      const { userId } = ctx;
+
+      const userWithOrganization = await db.user.findUnique({
+        where: { id: userId },
+        include: { Organization: true },
+      });
+
+      if (!userWithOrganization?.Organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja użytkownika nie została znaleziona",
+        });
+      }
+
+      const partnership = await db.partnership.findFirst({
+        where: { chatId },
+      });
+
+      if (!partnership) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Współpraca nie została znaleziona",
+        });
+      }
+
+      await db.partnership.update({
+        where: { id: partnership.id },
+        data: {
+          isAccepted: true,
+        },
+      });
+
+      return partnership;
+    }),
+
+  userCanAcceptPartnership: privateProcedure
+    .input(UserCanAcceptPartnershipValidator)
+    .query(async ({ ctx, input }) => {
+      const { userId } = ctx;
+      const { chatId } = input;
+
+      const userWithOrganization = await db.user.findUnique({
+        where: { id: userId },
+        include: { Organization: true },
+      });
+
+      if (!userWithOrganization?.Organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja użytkownika nie została znaleziona",
+        });
+      }
+
+      const organization = await db.organization.findUnique({
+        where: { id: userWithOrganization.Organization.id },
+      });
+
+      if (!organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja nie została znaleziona",
+        });
+      }
+
+      const chat = await db.chat.findUnique({
+        where: { id: chatId },
+      });
+
+      if (!chat) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Chat nie został znaleziony",
+        });
+      }
+
+      const partnership = await db.partnership.findFirst({
+        where: { chatId },
+      });
+
+      if (!partnership) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Współpraca nie została znaleziona",
+        });
+      }
+
+      if (partnership.isAccepted) {
+        return false;
+      }
+
+      if (partnership.partnerId === organization.id) {
+        return true;
+      }
+
+      return false;
     }),
 });

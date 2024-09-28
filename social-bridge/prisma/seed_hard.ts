@@ -90,8 +90,8 @@ async function main() {
         projectsToRealize:
           "Planujemy uruchomić globalną platformę e-learningową dedykowaną zaawansowanym technologiom DevOps i zarządzaniu chmurą. Dodatkowo, pracujemy nad stworzeniem programu certyfikacji dla etycznych hakerów specjalizujących się w bezpieczeństwie infrastruktury. Zamierzamy również zorganizować pierwszą międzynarodową konferencję poświęconą well-being w branży IT.",
         searchPartnershipTags: [
-          PartnershipTag.CASH_PROVIDER,
-          PartnershipTag.MATERIAL_PROVIDER,
+          PartnershipTag.FUNDATOR,
+          PartnershipTag.DOSTARCZYCIEL_MATERIALU,
         ],
         givePartnershipTags: [PartnershipTag.IT, PartnershipTag.ORGANIZATOR],
         addressId: adminAddress.id,
@@ -143,7 +143,7 @@ async function main() {
       projectsToRealize:
         "W najbliższej przyszłości planujemy rozwinąć naszą ofertę o rozwiązania z zakresu sztucznej inteligencji i uczenia maszynowego. Pracujemy nad platformą do automatyzacji procesów biznesowych wykorzystującą AI, która ma potencjał zrewolucjonizować sposób, w jaki firmy zarządzają swoimi operacjami. Dodatkowo, rozwijamy projekt blockchain dla sektora finansowego, mający na celu zwiększenie bezpieczeństwa i transparentności transakcji międzynarodowych.",
       searchPartnershipTags: [PartnershipTag.ORGANIZATOR],
-      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.CASH_PROVIDER],
+      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.FUNDATOR],
       addressId: businessBigAddress.id,
       OrganizationType: $Enums.OrganizationType.BUSINESS,
       Team: {
@@ -200,8 +200,8 @@ async function main() {
       searchPartnershipTags: [PartnershipTag.ORGANIZATOR],
       givePartnershipTags: [
         PartnershipTag.IT,
-        PartnershipTag.CASH_PROVIDER,
-        PartnershipTag.MATERIAL_PROVIDER,
+        PartnershipTag.FUNDATOR,
+        PartnershipTag.DOSTARCZYCIEL_MATERIALU,
       ],
       addressId: businessSmallAddress.id,
       OrganizationType: $Enums.OrganizationType.BUSINESS,
@@ -249,10 +249,10 @@ async function main() {
       projectsToRealize:
         "W najbliższej przyszłości planujemy uruchomić innowacyjny program online łączący młodzież z obszarów wiejskich z mentorami z czołowych firm technologicznych. Dodatkowo, pracujemy nad stworzeniem platformy e-learningowej dostosowanej do potrzeb osób z różnymi niepełnosprawnościami, która ma na celu zwiększenie dostępności edukacji cyfrowej. Planujemy również rozszerzyć nasz program stypendialny, aby objąć wsparciem finansowym większą liczbę utalentowanych studentów z trudnych środowisk.",
       searchPartnershipTags: [
-        PartnershipTag.CASH_PROVIDER,
-        PartnershipTag.MATERIAL_PROVIDER,
+        PartnershipTag.FUNDATOR,
+        PartnershipTag.DOSTARCZYCIEL_MATERIALU,
       ],
-      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.CASH_PROVIDER],
+      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.FUNDATOR],
       addressId: ngoAddress.id,
       OrganizationType: $Enums.OrganizationType.NGO,
       Team: {
@@ -268,7 +268,7 @@ async function main() {
     data: {
       organizerId: businessBigOrganization.id,
       partnerId: ngoOrganization.id,
-      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.CASH_PROVIDER],
+      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.FUNDATOR],
       searchPartnershipTags: [PartnershipTag.ORGANIZATOR],
     },
   });
