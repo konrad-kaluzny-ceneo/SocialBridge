@@ -3,16 +3,32 @@
 import { ChatAiContextProvider } from "@/components/map/organization/ChatAiContext";
 import ChatAiMessages from "@/components/map/organization/ChatAiMessages";
 import ChatAiInput from "@/components/map/organization/ChatAiInput";
-import ChatAiMapRendererAiCoordinates from "@/components/map/organization/ChatAiMapRendererAiCoordinates";
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+
+const ChatAiMapRendererAiCoordinates = dynamic(
+  () => import("@/components/map/organization/ChatAiMapRendererAiCoordinates"),
+  { ssr: false },
+);
 
 type Props = {
   chatId: string;
 };
 
 export default function ChatAiWrapper({ chatId }: Props) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <ChatAiContextProvider chatId={chatId}>
-      <div className="flex flex-col md:flex-row w-full">
+      <div className="flex w-full flex-col md:flex-row">
         {/* left side */}
         <div className="w-full xl:w-2/3">
           <ChatAiMapRendererAiCoordinates chatId={chatId} />

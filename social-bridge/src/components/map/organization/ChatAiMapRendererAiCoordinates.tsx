@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { trpc } from "@/server/client";
 import MapMultipleLocations from "./MapMultipleLocations";
 import { MapLocation } from "@/types/mapLocation";
@@ -15,27 +16,31 @@ export default function ChatAiMapRendererAiCoordinates({ chatId }: Props) {
       id: chatId,
     });
 
+  const mapLocations = useMemo(() => {
+    if (!organizations) return [];
+
+    return organizations
+      .filter(
+        (organization) =>
+          organization.Address &&
+          organization.Address.lat &&
+          organization.Address.lng,
+      )
+      .map((organization) => ({
+        id: organization.id,
+        lat: -(-organization.Address!.lat!),
+        lng: -(-organization.Address!.lng!),
+        title: organization.name,
+        VisibleAddress: `${organization.Address!.city}, ${organization.Address!.street}`,
+      }));
+  }, [organizations]);
+
   if (!organizations) {
     return <ChatMapRendererAll />;
   }
 
-  const mapLocations: MapLocation[] = organizations
-    .filter(
-      (organization) =>
-        organization.Address &&
-        organization.Address.lat &&
-        organization.Address.lng,
-    )
-    .map((organization) => ({
-      id: organization.id,
-      lat: -(-organization.Address!.lat!),
-      lng: -(-organization.Address!.lng!),
-      title: organization.name,
-      VisibleAddress: `${organization.Address!.city}, ${organization.Address!.street}`,
-    }));
-
   if (mapLocations.length === 0) {
-    return null;
+    return <ChatMapRendererAll />;
   }
 
   const center = mapLocations[0];
@@ -49,7 +54,7 @@ export default function ChatAiMapRendererAiCoordinates({ chatId }: Props) {
           maxHeight="30vh"
         />
       </div>
-      <div className="hidde w-full md:block">
+      <div className="hidden w-full md:block">
         <MapMultipleLocations
           MapLocations={mapLocations}
           Center={center}
