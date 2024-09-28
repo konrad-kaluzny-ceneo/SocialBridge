@@ -21,6 +21,23 @@ export const userRouter = router({
     return user;
   }),
 
+  getUserOrganizationId: privateProcedure.query(async ({ ctx }) => {
+    const user = await db.user.findUnique({
+      where: {
+        id: ctx.userId,
+      },
+    });
+
+    if (!user) {
+      throw new TRPCError({
+        code: "NOT_FOUND",
+        message: "Użytkownik nie został znaleziony",
+      });
+    }
+
+    return user.organizationId;
+  }),
+
   hasUserOrganization: privateProcedure.query(async ({ ctx }) => {
     const user = await db.user.findUnique({
       where: {

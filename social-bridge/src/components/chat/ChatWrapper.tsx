@@ -22,23 +22,21 @@ export default function ChatWrapper({ chatId }: Props) {
   }
 
   return (
-    <ChatContextProvider chatId={chatId}>
-      <div className="flex w-full flex-col md:flex-row">
-        {/* left side */}
-        <div className="w-full xl:w-2/3">
-          <UserChatsList />
-        </div>
+    <div className="flex w-full flex-col md:flex-row">
+      {/* left side */}
+      <div className="w-full xl:w-1/3">
+        <UserChatsList />
+      </div>
 
-        {/* right side */}
-        <div className="relative mt-3 flex h-[59vh] w-full md:h-[88vh] md:w-1/3">
-          <div className="flex h-[47vh] w-full md:h-[78vh]">
-            <ChatMessages chatId={chatId} />
-          </div>
-          <div className="absolute bottom-0 left-0 w-full p-4">
-            <ChatInput isDisabled={false} />
-          </div>
+      {/* right side */}
+      <div className="relative mt-3 flex h-[59vh] w-full md:h-[88vh] md:w-2/3">
+        <div className="flex h-[47vh] w-full md:h-[78vh]">
+          <ChatMessages chatId={chatId} />
+        </div>
+        <div className="absolute bottom-0 left-0 w-full p-4">
+          <ChatInput isDisabled={false} />
         </div>
       </div>
-    </ChatContextProvider>
+    </div>
   );
 }

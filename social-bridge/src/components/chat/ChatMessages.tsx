@@ -27,18 +27,6 @@ export default function ChatMessages({ chatId }: Props) {
 
   const messages = data?.pages.flatMap((page) => page.messages) ?? [];
 
-  const loadingMeessage = {
-    createdAt: new Date(),
-    id: "loading",
-    isUserMessage: false,
-    isCoordinatesData: false,
-    text: (
-      <span className="flex h-full items-center justify-center">
-        <Loader2Icon className="h-4 w-4 animate-spin" />
-      </span>
-    ),
-  };
-
   const combinedMessages = [...messages];
 
   const lastMessageRef = useRef<HTMLDivElement>(null);

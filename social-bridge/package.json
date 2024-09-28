@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed_small.ts"
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed_hard.ts"
   },
   "dependencies": {
     "@clerk/localizations": "^3.0.4",

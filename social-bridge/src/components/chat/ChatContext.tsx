@@ -53,7 +53,6 @@ export const ChatContextProvider = ({ chatId, children }: Props) => {
               id: "optimistic-update",
               createdAt: new Date(),
               text: message,
-              isUserMessage: true,
               User: {
                 id: "current-user",
                 name: "You",

@@ -14,7 +14,7 @@ export const GetChatValidator = z.object({
 export const GetMessagesValidator = z.object({
   limit: z.number().min(1).max(100).nullish(),
   cursor: z.string().nullish(),
-  chatId: z.string(),
+  chatId: z.string().min(1, { message: "Chat id should be provided" }),
 });
 
 export const SendMessageValidator = z.object({

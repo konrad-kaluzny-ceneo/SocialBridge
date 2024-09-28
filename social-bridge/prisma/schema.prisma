@@ -322,8 +322,6 @@ model Message {
   Chat   Chat   @relation(fields: [chatId], references: [id])
   chatId String
 
-  isUserMessage Boolean @default(false)
-
   @@index([userId])
   @@index([chatId])
 }

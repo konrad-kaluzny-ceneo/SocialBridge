@@ -120,7 +120,7 @@ export const partnershipRouter = router({
         data: {
           text: message,
           chatId: chat.id,
-          userId: userWithOrganization.Organization.id,
+          userId: userId,
         },
       });
 

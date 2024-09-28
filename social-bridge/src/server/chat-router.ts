@@ -99,7 +99,21 @@ export const chatRouter = router({
       const { cursor, chatId } = input;
       const limit = input.limit ?? INFINITE_QUERY_LIMIT;
 
+      console.log("chatId", chatId);
+
       const chat = await db.chat.findFirst({
+        where: { id: chatId },
+      });
+
+      console.log(chat);
+
+      if (!chat)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Chat nie został znaleziony",
+        });
+
+      const chatWithData = await db.chat.findFirst({
         where: { id: chatId },
         include: {
           Partnership: {
@@ -119,19 +133,15 @@ export const chatRouter = router({
         },
       });
 
-      if (!chat)
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Chat nie został znaleziony",
-        });
+      console.log(chatWithData);
 
-      const isUserOrganizer = chat.Partnership.some((partnership) =>
+      const isUserOrganizer = chatWithData?.Partnership.some((partnership) =>
         partnership.Organizer?.Team.some(
           (teamMember) => teamMember.id === userId,
         ),
       );
 
-      const isUserPartner = chat.Partnership.some((partnership) =>
+      const isUserPartner = chatWithData?.Partnership.some((partnership) =>
         partnership.Partner?.Team.some(
           (teamMember) => teamMember.id === userId,
         ),
@@ -153,7 +163,6 @@ export const chatRouter = router({
           id: true,
           createdAt: true,
           text: true,
-          isUserMessage: true,
           User: {
             select: {
               id: true,
@@ -192,6 +201,21 @@ export const chatRouter = router({
     .input(SendMessageValidator)
     .mutation(async ({ ctx, input }) => {
       const { user } = ctx;
+
+      const dbUser = await db.user.findUnique({
+        where: { id: user.id },
+        include: {
+          Organization: true,
+        },
+      });
+
+      if (!dbUser?.id) {
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Użytkownik nie został znaleziony",
+        });
+      }
+
       const { chatId, message } = input;
 
       const chat = await db.chat.findFirst({
@@ -210,7 +234,6 @@ export const chatRouter = router({
       const newMessage = await db.message.create({
         data: {
           text: message,
-          isUserMessage: true,
           Chat: {
             connect: {
               id: chatId,
@@ -218,7 +241,7 @@ export const chatRouter = router({
           },
           User: {
             connect: {
-              id: user.id,
+              id: dbUser.id,
             },
           },
         },

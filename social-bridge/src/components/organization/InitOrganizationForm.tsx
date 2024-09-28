@@ -194,26 +194,24 @@ export default function InitOrganizationForm({
           )}
         />
 
-        {OrganizationType == $Enums.OrganizationType.BUSINESS && (
-          <FormField
-            control={form.control}
-            name="previousExperience"
-            render={({ field }) => (
-              <FormItem className="col-span-2 w-full">
-                <FormLabel>Poprzednie doświadczenie</FormLabel>
-                <FormControl>
-                  <Textarea
-                    rows={3}
-                    minRows={3}
-                    placeholder="Poprzednie doświadczenie organizacji"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        )}
+        <FormField
+          control={form.control}
+          name="previousExperience"
+          render={({ field }) => (
+            <FormItem className="col-span-2 w-full">
+              <FormLabel>Poprzednie doświadczenie</FormLabel>
+              <FormControl>
+                <Textarea
+                  rows={3}
+                  minRows={3}
+                  placeholder="Poprzednie doświadczenie organizacji"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}

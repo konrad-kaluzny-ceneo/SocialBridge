@@ -78,14 +78,16 @@ export default function InitPartnershipProcessDialog({
   }
 
   const {
-    data: hasUserOrganization,
-    isLoading: isLoadingHasUserOrganization,
-    isError: isErrorHasUserOrganization,
-  } = trpc.user.hasUserOrganization.useQuery();
+    data: userOrganizationId,
+    isLoading: isLoadingUserOrganization,
+    isError: isErrorUserOrganization,
+  } = trpc.user.getUserOrganizationId.useQuery();
 
-  if (isLoadingHasUserOrganization) return null;
-  if (isErrorHasUserOrganization) return null;
-  if (!hasUserOrganization) return null;
+  if (isLoadingUserOrganization) return null;
+  if (isErrorUserOrganization) return null;
+  if (!userOrganizationId) return null;
+
+  if (userOrganizationId === organizationId) return null;
 
   return (
     <Dialog>
