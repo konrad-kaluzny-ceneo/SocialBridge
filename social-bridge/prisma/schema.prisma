@@ -23,6 +23,24 @@ model User {
   username      String?   @unique
   image         String?
 
+  OrganizedEvents Event[]
+
+  Organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?
+
+  Volunteer   Volunteer? @relation(fields: [volunteerId], references: [id])
+  volunteerId String?
+
+  OrganizationType OrganizationType?
+
+  OrganizerRelations Partnership[] @relation("Organizer")
+  PartnerRelations   Partnership[] @relation("Partner")
+
+  ReviewsGiven    Review[] @relation("ReviewsGiven")
+  ReviewsReceived Review[] @relation("ReviewsReceived")
+
+  @@index([organizationId])
+  @@index([volunteerId])
 }
 
 model Photo {
@@ -32,5 +50,140 @@ model Photo {
   fileName String
   url      String
 
+  Event        Event[]
+  Organization Organization[]
+
   isMainPhoto Boolean @default(false)
+}
+
+model Address {
+  id String @id @default(cuid())
+
+  street  String
+  city    String
+  zipCode String
+  lat     Decimal
+  lng     Decimal
+
+  Events       Event[]
+  Organization Organization[]
+}
+
+enum EventType {
+  GROUP_WORKSHOP
+  MENTORING
+  SCHOLARSHIP
+  SHELTERED_WORKSHOP
+  FUNDRAISER
+}
+
+enum EventStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+}
+
+model Event {
+  id String @id @default(cuid())
+
+  eventType   EventType
+  eventStatus EventStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title       String
+  description String
+  startEvent  DateTime
+  budget      Int
+
+  Address   Address @relation(fields: [addressId], references: [id])
+  addressId String
+
+  EventOrganizer   User   @relation(fields: [eventOrganizerId], references: [id])
+  eventOrganizerId String
+
+  Photos       Photo[]
+  Reviews      Review[]
+  Partnerships Partnership[]
+
+  Volunteers Volunteer[]
+
+  @@index([addressId])
+  @@index([eventOrganizerId])
+}
+
+enum OrganizationType {
+  NGO
+  BUSINESS
+}
+
+model Organization {
+  id String @id @default(cuid())
+
+  Users User[]
+
+  Address   Address? @relation(fields: [addressId], references: [id])
+  addressId String?
+
+  name        String
+  description String
+  goal        String
+
+  Photos Photo[]
+
+  @@index([addressId])
+}
+
+model Partnership {
+  id String @id @default(cuid())
+
+  Organizer   User?   @relation("Organizer", fields: [organizerId], references: [id])
+  organizerId String?
+
+  Partner   User?   @relation("Partner", fields: [partnerId], references: [id])
+  partnerId String?
+
+  Event   Event?  @relation(fields: [eventId], references: [id])
+  eventId String?
+
+  message String?
+
+  isAccepted Boolean @default(false)
+
+  @@index([organizerId])
+  @@index([partnerId])
+  @@index([organizerId, partnerId])
+  @@index([eventId])
+}
+
+model Review {
+  id String @id @default(cuid())
+
+  Reviewer   User?   @relation("ReviewsGiven", fields: [reviewerId], references: [id])
+  reviewerId String?
+
+  ReviewedUser   User?   @relation("ReviewsReceived", fields: [reviewedUserId], references: [id])
+  reviewedUserId String?
+
+  Event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  value   Int
+  comment String
+
+  @@index([reviewerId])
+  @@index([reviewedUserId])
+  @@index([eventId])
+}
+
+model Volunteer {
+  id String @id @default(cuid())
+
+  User User[]
+
+  Events Event[]
+
+  strength   String
+  experience String
 }
