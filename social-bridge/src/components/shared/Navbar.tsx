@@ -11,9 +11,12 @@ export default async function Navbar() {
   const { userId } = auth();
   const isAdmin = userId ? checkRole("admin") : false;
 
-  const publicLinks: { href: string; label: string }[] = [];
+  const publicLinks: { href: string; label: string }[] = [
+    { href: "/organizations", label: "Organizacje" },
+  ];
 
   const privateLinks: { href: string; label: string }[] = [
+    { href: "/init-organization", label: "Twoja wizytówka" },
   ];
 
   return (

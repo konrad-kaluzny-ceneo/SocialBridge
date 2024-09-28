@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <div className="m-auto flex flex-col">
-      <LandingPage />
+      <LandingPage shouldShowLoginButton={user?.id == undefined} />
     </div>
   );
 }

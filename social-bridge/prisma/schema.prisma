@@ -28,19 +28,14 @@ model User {
   Organization   Organization? @relation(fields: [organizationId], references: [id])
   organizationId String?
 
-  Volunteer   Volunteer? @relation(fields: [volunteerId], references: [id])
-  volunteerId String?
-
-  OrganizationType OrganizationType?
-
-  OrganizerRelations Partnership[] @relation("Organizer")
-  PartnerRelations   Partnership[] @relation("Partner")
+  TeamMemberDetails   TeamMemberDetails? @relation(fields: [teamMemberDetailsId], references: [id])
+  teamMemberDetailsId String?            @unique
 
   ReviewsGiven    Review[] @relation("ReviewsGiven")
   ReviewsReceived Review[] @relation("ReviewsReceived")
 
   @@index([organizationId])
-  @@index([volunteerId])
+  @@index([teamMemberDetailsId])
 }
 
 model Photo {
@@ -62,8 +57,6 @@ model Address {
   street  String
   city    String
   zipCode String
-  lat     Decimal
-  lng     Decimal
 
   Events       Event[]
   Organization Organization[]
@@ -106,8 +99,7 @@ model Event {
   Photos       Photo[]
   Reviews      Review[]
   Partnerships Partnership[]
-
-  Volunteers Volunteer[]
+  EventFunding EventFunding[]
 
   @@index([addressId])
   @@index([eventOrganizerId])
@@ -118,19 +110,70 @@ enum OrganizationType {
   BUSINESS
 }
 
+enum PartnershipTag {
+  ORGANIZATOR
+  NEEDY_PEOPLE_PROVIDER
+  CASH_PROVIDER
+  VOLUNTEERS_PROVIDER
+  MATERIAL_PROVIDER
+  SPACE_PROVIDER
+  EQUIPMENT_PROVIDER
+  IT
+}
+
+model Budget {
+  id String @id @default(cuid())
+
+  amount      Int
+  description String
+
+  EventsFundings EventFunding[]
+}
+
+model EventFunding {
+  id String @id @default(cuid())
+
+  Event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  Budget   Budget @relation(fields: [budgetId], references: [id])
+  budgetId String
+
+  amount Int
+
+  @@index([eventId])
+  @@index([budgetId])
+}
+
 model Organization {
   id String @id @default(cuid())
 
-  Users User[]
+  Team User[]
+
+  OrganizationType OrganizationType?
 
   Address   Address? @relation(fields: [addressId], references: [id])
   addressId String?
 
-  name        String
-  description String
-  goal        String
+  name             String @unique
+  shortDescription String
+  longDescription  String
 
-  Photos Photo[]
+  socialGoals          String?
+  sociamImpactStrategy String?
+  businessGoals        String?
+
+  previousExperience   String?
+  projectsToRealize    String?
+
+  searchPartnershipTags PartnershipTag[]
+  givePartnershipTags   PartnershipTag[]
+
+  OrganizerRelations Partnership[] @relation("Organizer")
+  PartnerRelations   Partnership[] @relation("Partner")
+
+  Photos    Photo[]
+  NgoRaport NgoRaport[]
 
   @@index([addressId])
 }
@@ -138,10 +181,10 @@ model Organization {
 model Partnership {
   id String @id @default(cuid())
 
-  Organizer   User?   @relation("Organizer", fields: [organizerId], references: [id])
+  Organizer   Organization? @relation("Organizer", fields: [organizerId], references: [id])
   organizerId String?
 
-  Partner   User?   @relation("Partner", fields: [partnerId], references: [id])
+  Partner   Organization? @relation("Partner", fields: [partnerId], references: [id])
   partnerId String?
 
   Event   Event?  @relation(fields: [eventId], references: [id])
@@ -177,13 +220,62 @@ model Review {
   @@index([eventId])
 }
 
-model Volunteer {
+model TeamMemberDetails {
   id String @id @default(cuid())
 
-  User User[]
+  experience   String?
+  skills       String?
+  strongPoints String?
+  projects     String?
+  role         String?
 
-  Events Event[]
+  User User?
+}
 
-  strength   String
-  experience String
+enum ReportType {
+  FINANCIAL
+  ACTIVITY
+  COMBINED
+}
+
+model NgoRaport {
+  id String @id @default(cuid())
+
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Basic information
+  reportingYear Int
+  reportType    ReportType
+
+  // Financial report information
+  balance         Float
+  incomeStatement Float
+  additionalInfo  String
+
+  // Detailed financial information
+  assets          Float
+  liabilities     Float
+  equity          Float
+  revenue         Float
+  costs           Float
+  financialResult Float
+
+  // Activity report information
+  statutoryActivities     String
+  publicBenefitActivities String?
+  economicActivities      String?
+
+  // Fundraising and administrative costs
+  fundraisingCosts    Float?
+  administrativeCosts Float?
+
+  // Staff information
+  employeesCount  Int
+  volunteersCount Int?
+
+  @@index([organizationId])
 }
