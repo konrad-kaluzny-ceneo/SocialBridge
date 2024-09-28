@@ -22,47 +22,51 @@ export default function OrganizationHeader({ organizationId }: Props) {
   if (!organization) return <div>Organization not found</div>;
 
   return (
-    <Card className="w-full mt-4">
+    <Card className="mt-4 w-full">
       <CardHeader>
-        <CardTitle className="text-3xl font-bold">{organization.name}</CardTitle>
-        <Badge variant="secondary" className="mt-2">
+        <CardTitle className="text-3xl font-bold">
+          {organization.name}
+        </CardTitle>
+        <Badge variant="secondary" className="mt-2 w-fit">
           {organization.shortDescription}
         </Badge>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <section>
-          <h2 className="text-xl font-semibold mb-2">O nas</h2>
+        <section className="rounded-md p-4">
+          <h2 className="mb-2 text-xl font-semibold">O nas</h2>
           <p className="text-gray-600">{organization.longDescription}</p>
         </section>
-        
-        <section>
-          <h2 className="text-xl font-semibold mb-2">Nasze cele</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <section className="rounded-md bg-gray-100 p-4">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div>
-              <h3 className="text-lg font-medium mb-1">Cele społeczne</h3>
+              <h3 className="mb-1 text-lg font-medium">Cele społeczne</h3>
               <p className="text-gray-600">{organization.socialGoals}</p>
             </div>
             <div>
-              <h3 className="text-lg font-medium mb-1">Cele biznesowe</h3>
+              <h3 className="mb-1 text-lg font-medium">Cele biznesowe</h3>
               <p className="text-gray-600">{organization.businessGoals}</p>
             </div>
           </div>
         </section>
-        
-        <section>
-          <h2 className="text-xl font-semibold mb-2">Strategia wpływu</h2>
+
+        <section className="rounded-md p-4">
+          <h2 className="mb-2 text-xl font-semibold">Strategia wpływu</h2>
           <p className="text-gray-600">{organization.sociamImpactStrategy}</p>
         </section>
-        
-        <section>
-          <h2 className="text-xl font-semibold mb-2">Doświadczenie i projekty</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <section className="rounded-md bg-gray-100 p-4">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div>
-              <h3 className="text-lg font-medium mb-1">Poprzednie doświadczenia</h3>
+              <h3 className="mb-1 text-lg font-medium">
+                Poprzednie doświadczenia
+              </h3>
               <p className="text-gray-600">{organization.previousExperience}</p>
             </div>
             <div>
-              <h3 className="text-lg font-medium mb-1">Projekty do realizacji</h3>
+              <h3 className="mb-1 text-lg font-medium">
+                Projekty do realizacji
+              </h3>
               <p className="text-gray-600">{organization.projectsToRealize}</p>
             </div>
           </div>
