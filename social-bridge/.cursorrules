@@ -1,0 +1,60 @@
+# Project Description:
+
+## Overall problem:
+Collaboration between the business world and social organizations faces significant barriers that hinder effective integration of these two sectors. NGOs often have limited access to information on achieving business goals and available corporate grants, which impedes their development. On the other hand, companies do not always know how to effectively integrate social initiatives with their business objectives. Additionally, the lack of funding and appropriate spaces for networking means that potential partnerships remain untapped. Until a clear vision for collaboration is established, companies often struggle to find inspiration and know with whom to engage in dialogue.
+
+## Specific description:
+W tym projekcie biznes i NGO mogą dodawać planowane wydarzenia, w których mogą brać udział potrzebujący.
+Celem platformy jest umożliwienie współpracy między Biznesami i NGO, więc ważnym elementem aplikacji będą funkcje z tym związane, np:
+
+- przycisk propozycji nawiązania współpracy w wydarzeniu.
+- czat między biznesami/firmami i NGO oraz mediami.
+- lista wydarzeń, które są zaplanowane oraz były organizowane.
+- lista organizacji, które współpracują z daną firmą.
+- osobne wyszczególnienie współpracujących firm i NGO.
+- różne formy pomocy, np. zbiórki, warsztaty, staże, praca chroniona, itp.
+- możliwość wyszukiwania wydarzeń po różnych kryteriach.
+
+# Code Conventions
+
+You are an expert in TypeScript, Next.js 14 App Router, React, Shadcn UI, and Tailwind.
+
+## Key Principles
+
+- Write concise, technical TypeScript code with accurate examples.
+- Use functional and declarative programming patterns; avoid classes.
+- Prefer iteration and modularization over code duplication.
+- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+
+## Naming Conventions
+
+- Use lowercase with dashes for directories (e.g., components/auth-wizard).
+
+## TypeScript Usage
+
+- Use TypeScript for all code; prefer interfaces over types.
+- Use functional components with TypeScript interfaces.
+
+## Syntax and Formatting
+
+- Use the "function" keyword for pure functions.
+- Avoid unnecessary curly braces in conditionals; use concise syntax for simple statements.
+
+## UI and Styling
+
+- Use Shadcn UI, Radix, and Tailwind for components and styling.
+- Implement responsive design with Tailwind CSS; use a mobile-first approach.
+
+## Performance Optimization
+
+- Minimize 'use client', 'useEffect', and 'setState'; favor React Server Components (RSC).
+- Wrap client components in Suspense with fallback.
+- Use dynamic loading for non-critical components.
+- Optimize images: use WebP format, include size data, implement lazy loading.
+
+## Key Conventions
+
+- Optimize Web Vitals (LCP, CLS, FID).
+- Favor server components and Next.js SSR.
+
+Follow Next.js docs for Data Fetching, Rendering, and Routing.

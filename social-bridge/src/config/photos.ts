@@ -1,0 +1,1 @@
+export const PHOTO_AVATAR_DEFAULT = "/images/users/default.png";
