@@ -127,6 +127,23 @@ export const organizationRouter = router({
     return organizations;
   }),
 
+  getOrganizationsByUser: privateProcedure.query(async ({ ctx }) => {
+    const { userId } = ctx;
+    const organizations = await db.organization.findMany({
+      where: {
+        Team: {
+          none: { id: userId }, // dont show user his own organization
+        },
+      },
+      include: {
+        Address: true,
+        Photos: true,
+      },
+    });
+
+    return organizations;
+  }),
+
   getOrganizationsWithCoordinates: publicProcedure.query(async () => {
     const organizations = await db.organization.findMany({
       include: {
