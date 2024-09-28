@@ -1,5 +1,6 @@
 import OrganizationHeader from "@/components/organization/OrganizationHeader";
 import OrganizationImage from "@/components/organization/OrganizationImage";
+import OrganizationPartnerships from "@/components/partnership/OrganizationPartnerships";
 import WrapperMaxWidth from "@/components/shared/WrapperMaxWidth";
 import { db } from "@/db";
 import { currentUser } from "@clerk/nextjs/server";
@@ -34,6 +35,8 @@ export default async function OrganizationPage({
       <OrganizationHeader
         organizationId={organization.id}
       />
+
+      <OrganizationPartnerships organizationId={organization.id} />
     </WrapperMaxWidth>
   );
 }

@@ -3,7 +3,7 @@ import { $Enums, PartnershipTag, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const isAdminQuestionnaireCompleted = false;
+  const isAdminOrganizationCreated = false;
 
   await prisma.organization.deleteMany();
   await prisma.photo.deleteMany();
@@ -72,6 +72,38 @@ async function main() {
       image: process.env.SEED_ADMIN_USER_IMAGE,
     },
   });
+
+  if (isAdminOrganizationCreated) {
+    const adminOrganization = await prisma.organization.create({
+      data: {
+        name: "Fundacja Admini Razem",
+        shortDescription:
+          "Wspieramy adminów i devopsów z całego świata by żyło im się lepiej.",
+        longDescription:
+          "Fundacja Admini Razem została założona w 2020 roku z misją wspierania administratorów systemów i specjalistów DevOps na całym świecie. Nasze działania koncentrują się na organizacji szkoleń, warsztatów, mentoringu oraz tworzeniu narzędzi open-source dla społeczności IT.",
+        sociamImpactStrategy:
+          "Fundacja Admini Razem aktywnie promuje zrównoważone praktyki w infrastrukturze IT, dążąc do redukcji śladu węglowego centrów danych i optymalizacji zużycia energii.",
+        socialGoals:
+          "Naszym celem jest poprawa warunków pracy adminów i DevOps, promowanie work-life balance oraz zwiększanie świadomości na temat znaczenia ich pracy w nowoczesnym świecie technologii.",
+        previousExperience:
+          "Od 2020 roku Fundacja Admini Razem zorganizowała ponad 30 warsztatów online, stworzyła 5 popularnych narzędzi open-source i pomogła ponad 1000 specjalistom IT w rozwoju kariery. Nasze programy mentoringowe zwiększyły satysfakcję z pracy uczestników o 40% i przyczyniły się do 25% wzrostu wynagrodzeń w ciągu roku od ukończenia programu.",
+        projectsToRealize:
+          "Planujemy uruchomić globalną platformę e-learningową dedykowaną zaawansowanym technologiom DevOps i zarządzaniu chmurą. Dodatkowo, pracujemy nad stworzeniem programu certyfikacji dla etycznych hakerów specjalizujących się w bezpieczeństwie infrastruktury. Zamierzamy również zorganizować pierwszą międzynarodową konferencję poświęconą well-being w branży IT.",
+        searchPartnershipTags: [
+          PartnershipTag.CASH_PROVIDER,
+          PartnershipTag.MATERIAL_PROVIDER,
+        ],
+        givePartnershipTags: [PartnershipTag.IT, PartnershipTag.ORGANIZATOR],
+        addressId: adminAddress.id,
+        OrganizationType: $Enums.OrganizationType.NGO,
+        Team: {
+          connect: {
+            id: adminUser.id,
+          },
+        },
+      },
+    });
+  }
 
   const businessBigUser = await prisma.user.create({
     data: {
@@ -228,6 +260,16 @@ async function main() {
           id: ngoUser.id,
         },
       },
+    },
+  });
+
+  // Partnerships
+  const partnership = await prisma.partnership.create({
+    data: {
+      organizerId: businessBigOrganization.id,
+      partnerId: ngoOrganization.id,
+      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.CASH_PROVIDER],
+      searchPartnershipTags: [PartnershipTag.ORGANIZATOR],
     },
   });
 }

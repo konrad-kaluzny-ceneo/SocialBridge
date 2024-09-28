@@ -14,7 +14,10 @@ export const aiRouter = router({
     const { user } = ctx;
 
     if (!user) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Użytkownik nie został znaleziony",
+      });
     }
 
     return db.chatWithAi.findMany({
@@ -30,7 +33,10 @@ export const aiRouter = router({
       const { user } = ctx;
 
       if (!user) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
+        throw new TRPCError({
+          code: "UNAUTHORIZED",
+          message: "Użytkownik nie został znaleziony",
+        });
       }
 
       return db.chatWithAi.create({
@@ -64,7 +70,11 @@ export const aiRouter = router({
         },
       });
 
-      if (!chat) throw new TRPCError({ code: "NOT_FOUND" });
+      if (!chat)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Chat nie został znaleziony",
+        });
 
       const messages = chat.Messages;
 
@@ -105,7 +115,13 @@ export const aiRouter = router({
       const chat = await db.chatWithAi.findFirst({
         where: { id: chatId, userId },
       });
-      if (!chat) throw new TRPCError({ code: "NOT_FOUND" });
+
+      if (!chat)
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Chat nie został znaleziony",
+        });
+
       const messages = await db.messageWithAi.findMany({
         where: { chatId },
         orderBy: { createdAt: "desc" },

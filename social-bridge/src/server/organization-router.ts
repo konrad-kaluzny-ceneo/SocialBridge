@@ -18,7 +18,7 @@ export const organizationRouter = router({
       if (!user) {
         throw new TRPCError({
           code: "NOT_FOUND",
-          message: "User not found",
+          message: "Użytkownik nie został znaleziony",
         });
       }
 
@@ -52,7 +52,7 @@ export const organizationRouter = router({
         console.error("data error", data);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Geocoding failed - response status not OK",
+          message: "Błąd podczas wyszukiwania współrzędnych",
         });
       }
 
@@ -61,7 +61,7 @@ export const organizationRouter = router({
       if (!lat || !lng) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Geocoding failed - no coordinates found",
+          message: "Obliczone współrzędne są nieprawidłowe",
         });
       }
 

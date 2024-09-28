@@ -34,7 +34,6 @@ model User {
   ReviewsGiven    Review[] @relation("ReviewsGiven")
   ReviewsReceived Review[] @relation("ReviewsReceived")
 
-  Chats    Chat[]
   Messages Message[]
 
   ChatsWithAi    ChatWithAi[]
@@ -184,8 +183,6 @@ model Organization {
   Photos    Photo[]
   NgoRaport NgoRaport[]
 
-  Chats Chat[]
-
   @@index([addressId])
 }
 
@@ -208,6 +205,9 @@ model Partnership {
   chatId String?
 
   isAccepted Boolean @default(false)
+
+  givePartnershipTags PartnershipTag[]
+  searchPartnershipTags   PartnershipTag[]
 
   @@index([organizerId])
   @@index([partnerId])
@@ -299,10 +299,8 @@ model NgoRaport {
 model Chat {
   id String @id @default(cuid())
 
-  Organizations Organization[]
-  Users         User[]
-  Messages      Message[]
-  Partnership   Partnership[]
+  Messages    Message[]
+  Partnership Partnership[]
 
   title String
 
@@ -323,6 +321,8 @@ model Message {
 
   Chat   Chat   @relation(fields: [chatId], references: [id])
   chatId String
+
+  isUserMessage Boolean @default(false)
 
   @@index([userId])
   @@index([chatId])

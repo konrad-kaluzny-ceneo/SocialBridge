@@ -359,6 +359,26 @@ async function main() {
       },
     });
   }
+
+  // Partnerships
+
+  let partnership = await prisma.partnership.findFirst({
+    where: {
+      organizerId: businessBigOrganization.id,
+      partnerId: ngoOrganization.id,
+    },
+  });
+
+  if (!partnership) {
+    partnership = await prisma.partnership.create({
+      data: {
+        organizerId: businessBigOrganization.id,
+        partnerId: ngoOrganization.id,
+        givePartnershipTags: [PartnershipTag.IT, PartnershipTag.CASH_PROVIDER],
+        searchPartnershipTags: [PartnershipTag.ORGANIZATOR],
+      },
+    });
+  }
 }
 
 main()
