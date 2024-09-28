@@ -23,8 +23,6 @@ model User {
   username      String?   @unique
   image         String?
 
-  OrganizedEvents Event[]
-
   Organization   Organization? @relation(fields: [organizationId], references: [id])
   organizationId String?
 
@@ -101,7 +99,7 @@ model Event {
   Address   Address @relation(fields: [addressId], references: [id])
   addressId String
 
-  EventOrganizer   User   @relation(fields: [eventOrganizerId], references: [id])
+  EventOrganizer   Organization @relation(fields: [eventOrganizerId], references: [id])
   eventOrganizerId String
 
   Photos       Photo[]
@@ -180,8 +178,9 @@ model Organization {
   OrganizerRelations Partnership[] @relation("Organizer")
   PartnerRelations   Partnership[] @relation("Partner")
 
-  Photos    Photo[]
-  NgoRaport NgoRaport[]
+  Photos          Photo[]
+  NgoRaport       NgoRaport[]
+  OrganizedEvents Event[]
 
   @@index([addressId])
 }
@@ -206,8 +205,8 @@ model Partnership {
 
   isAccepted Boolean @default(false)
 
-  givePartnershipTags PartnershipTag[]
-  searchPartnershipTags   PartnershipTag[]
+  givePartnershipTags   PartnershipTag[]
+  searchPartnershipTags PartnershipTag[]
 
   @@index([organizerId])
   @@index([partnerId])

@@ -288,6 +288,12 @@ async function main() {
     },
   });
 
+  await prisma.event.findUnique({
+    where: {
+      id: event.id,
+    },
+  });
+
   const event2 = await prisma.event.create({
     data: {
       title: "Warsztaty programowania dla młodzieży",
