@@ -4,10 +4,10 @@ import { TRPCError } from "@trpc/server";
 import { GetUserValidator } from "@/validators/user";
 
 export const userRouter = router({
-  getUser: privateProcedure.input(GetUserValidator).query(async ({ input }) => {
+  getUser: privateProcedure.query(async ({ ctx }) => {
     const user = await db.user.findUnique({
       where: {
-        id: input.userId,
+        id: ctx.userId,
       },
     });
 

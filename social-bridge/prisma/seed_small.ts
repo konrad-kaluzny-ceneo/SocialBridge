@@ -3,6 +3,56 @@ import { $Enums, PartnershipTag, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  const someAddress1 = await prisma.address.create({
+    data: {
+      street: "Fabryczna 13",
+      city: "Kraków",
+      zipCode: "31-553",
+      lat: 50.0659428,
+      lng: 19.9703589,
+    },
+  });
+
+  const someAddress2 = await prisma.address.create({
+    data: {
+      street: "Jana Kasprowicza 34-18",
+      city: "Kraków",
+      zipCode: "31-523",
+      lat: 50.0682022,
+      lng: 19.9669495,
+    },
+  });
+
+  const someAddress3 = await prisma.address.create({
+    data: {
+      street: "Świętego Tomasza 32",
+      city: "Kraków",
+      zipCode: "31-014",
+      lat: 50.0617316,
+      lng: 19.9432673,
+    },
+  });
+
+  const someAddress4 = await prisma.address.create({
+    data: {
+      street: "Grodzka 60-56",
+      city: "Kraków",
+      zipCode: "31-006",
+      lat: 50.0553829,
+      lng: 19.9375555,
+    },
+  });
+
+  const adminAddress = await prisma.address.create({
+    data: {
+      street: "Gazowa 9",
+      city: "Kraków",
+      zipCode: "31-060",
+      lat: 50.0486614,
+      lng: 19.9435355,
+    },
+  });
+
   let businessBigUser = await prisma.user.findUnique({
     where: {
       username: "businessbig",
@@ -26,6 +76,8 @@ async function main() {
       street: "Józefa 1",
       city: "Kraków",
       zipCode: "31-056",
+      lat: 50.0501956,
+      lng: 19.9429035,
     },
   });
 
@@ -127,6 +179,8 @@ async function main() {
       street: "Świętego Sebastiana 25",
       city: "Kraków",
       zipCode: "31-051",
+      lat: 50.0547233,
+      lng: 19.9399084,
     },
   });
 
@@ -230,6 +284,8 @@ async function main() {
       street: "Józefa Sarego 13",
       city: "Kraków",
       zipCode: "33-332",
+      lat: 50.0566475,
+      lng: 19.937875,
     },
   });
 

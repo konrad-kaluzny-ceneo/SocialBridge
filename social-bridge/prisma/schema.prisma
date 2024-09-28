@@ -34,6 +34,12 @@ model User {
   ReviewsGiven    Review[] @relation("ReviewsGiven")
   ReviewsReceived Review[] @relation("ReviewsReceived")
 
+  Chats    Chat[]
+  Messages Message[]
+
+  ChatsWithAi    ChatWithAi[]
+  MessagesWithAi MessageWithAi[]
+
   @@index([organizationId])
   @@index([teamMemberDetailsId])
 }
@@ -57,6 +63,9 @@ model Address {
   street  String
   city    String
   zipCode String
+
+  lat Decimal?
+  lng Decimal?
 
   Events       Event[]
   Organization Organization[]
@@ -163,8 +172,8 @@ model Organization {
   sociamImpactStrategy String?
   businessGoals        String?
 
-  previousExperience   String?
-  projectsToRealize    String?
+  previousExperience String?
+  projectsToRealize  String?
 
   searchPartnershipTags PartnershipTag[]
   givePartnershipTags   PartnershipTag[]
@@ -175,11 +184,16 @@ model Organization {
   Photos    Photo[]
   NgoRaport NgoRaport[]
 
+  Chats Chat[]
+
   @@index([addressId])
 }
 
 model Partnership {
   id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   Organizer   Organization? @relation("Organizer", fields: [organizerId], references: [id])
   organizerId String?
@@ -190,7 +204,8 @@ model Partnership {
   Event   Event?  @relation(fields: [eventId], references: [id])
   eventId String?
 
-  message String?
+  Chat   Chat?   @relation(fields: [chatId], references: [id])
+  chatId String?
 
   isAccepted Boolean @default(false)
 
@@ -198,6 +213,7 @@ model Partnership {
   @@index([partnerId])
   @@index([organizerId, partnerId])
   @@index([eventId])
+  @@index([chatId])
 }
 
 model Review {
@@ -278,4 +294,73 @@ model NgoRaport {
   volunteersCount Int?
 
   @@index([organizationId])
+}
+
+model Chat {
+  id String @id @default(cuid())
+
+  Organizations Organization[]
+  Users         User[]
+  Messages      Message[]
+  Partnership   Partnership[]
+
+  title String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  text String @db.Text()
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  Chat   Chat   @relation(fields: [chatId], references: [id])
+  chatId String
+
+  @@index([userId])
+  @@index([chatId])
+}
+
+model ChatWithAi {
+  id String @id @default(cuid())
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  Messages MessageWithAi[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name String
+
+  @@index([userId])
+}
+
+model MessageWithAi {
+  id String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  text String @db.Text()
+
+  isUserMessage     Boolean
+  isCoordinatesData Boolean @default(false)
+
+  User   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  Chat   ChatWithAi @relation(fields: [chatId], references: [id])
+  chatId String
+
+  @@index([userId])
+  @@index([chatId])
 }

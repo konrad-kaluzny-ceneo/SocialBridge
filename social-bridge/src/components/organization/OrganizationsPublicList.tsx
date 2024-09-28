@@ -2,6 +2,7 @@
 
 import { trpc } from "@/server/client";
 import OrganizationsList from "@/components/organization/OrganizationList";
+import ShowOrganizationsOnMapButton from "../map/organization/ShowOrganizationsOnMapButton";
 
 export default function OrganizationsPublicList() {
   const {
@@ -17,8 +18,7 @@ export default function OrganizationsPublicList() {
 
   return (
     <div className="flex w-full flex-col">
-      <h2 className="text-xl font-semibold mt-4 mb-2">Lista organizacji</h2>
-      <div className="mt-4 flex flex-col w-full gap-4">
+      <div className="mt-4 flex w-full flex-col gap-4">
         <OrganizationsList
           organizationsInit={organizationsDb}
           showImages={true}

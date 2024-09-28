@@ -18,6 +18,8 @@ async function main() {
       street: "Fabryczna 13",
       city: "Kraków",
       zipCode: "31-553",
+      lat: 50.0659428,
+      lng: 19.9703589,
     },
   });
 
@@ -26,6 +28,8 @@ async function main() {
       street: "Jana Kasprowicza 34-18",
       city: "Kraków",
       zipCode: "31-523",
+      lat: 50.0682022,
+      lng: 19.9669495,
     },
   });
 
@@ -34,6 +38,8 @@ async function main() {
       street: "Świętego Tomasza 32",
       city: "Kraków",
       zipCode: "31-014",
+      lat: 50.0617316,
+      lng: 19.9432673,
     },
   });
 
@@ -42,14 +48,18 @@ async function main() {
       street: "Grodzka 60-56",
       city: "Kraków",
       zipCode: "31-006",
+      lat: 50.0553829,
+      lng: 19.9375555,
     },
   });
 
-  const someAddress5 = await prisma.address.create({
+  const adminAddress = await prisma.address.create({
     data: {
       street: "Gazowa 9",
       city: "Kraków",
       zipCode: "31-060",
+      lat: 50.0486614,
+      lng: 19.9435355,
     },
   });
 
@@ -78,6 +88,8 @@ async function main() {
       street: "Józefa 1",
       city: "Kraków",
       zipCode: "31-056",
+      lat: 50.0501956,
+      lng: 19.9429035,
     },
   });
 
@@ -131,6 +143,8 @@ async function main() {
       street: "Świętego Sebastiana 25",
       city: "Kraków",
       zipCode: "31-051",
+      lat: 50.0547233,
+      lng: 19.9399084,
     },
   });
 
@@ -182,6 +196,8 @@ async function main() {
       street: "Józefa Sarego 13",
       city: "Kraków",
       zipCode: "33-332",
+      lat: 50.0566475,
+      lng: 19.937875,
     },
   });
 
