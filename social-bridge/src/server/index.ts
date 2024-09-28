@@ -4,12 +4,15 @@ import { organizationRouter } from "./organization-router";
 import { aiRouter } from "./ai-router";
 import { partnershipRouter } from "./partnership-router";
 import { chatRouter } from "./chat-router";
+import { eventsRouter } from "./events-router";
+
 export const appRouter = router({
   user: userRouter,
   organization: organizationRouter,
   ai: aiRouter,
   partnership: partnershipRouter,
   chat: chatRouter,
+  events: eventsRouter,
 });
 
 export type AppRouter = typeof appRouter;

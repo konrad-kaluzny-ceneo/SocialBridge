@@ -272,6 +272,35 @@ async function main() {
       searchPartnershipTags: [PartnershipTag.ORGANIZATOR],
     },
   });
+
+  // Events
+  const event = await prisma.event.create({
+    data: {
+      title: "Warsztaty programowania dla młodzieży",
+      description:
+        "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
+      startEvent: new Date(),
+      eventType: $Enums.EventType.GROUP_WORKSHOP,
+      eventStatus: $Enums.EventStatus.ACTIVE,
+      budget: 10000,
+      addressId: someAddress1.id,
+      eventOrganizerId: businessBigOrganization.id,
+    },
+  });
+
+  const event2 = await prisma.event.create({
+    data: {
+      title: "Warsztaty programowania dla młodzieży",
+      description:
+        "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
+      startEvent: new Date(),
+      eventType: $Enums.EventType.GROUP_WORKSHOP,
+      eventStatus: $Enums.EventStatus.ACTIVE,
+      budget: 10000,
+      addressId: someAddress1.id,
+      eventOrganizerId: businessBigOrganization.id,
+    },
+  });
 }
 
 main()

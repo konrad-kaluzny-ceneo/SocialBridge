@@ -106,6 +106,51 @@ export const aiRouter = router({
       return organizations;
     }),
 
+  getAiEventsCoordinates: privateProcedure
+    .input(GetAiChatValidator)
+    .query(async ({ ctx, input }) => {
+      const { userId } = ctx;
+      const { id } = input;
+
+      const chat = await db.chatWithAi.findFirst({
+        where: { id: id, userId },
+        include: {
+          Messages: true,
+        },
+      });
+
+      if (!chat) throw new TRPCError({ code: "NOT_FOUND" });
+
+      const messages = chat.Messages;
+
+      const coordinateMessage = messages.find(
+        (message) => message.isCoordinatesData,
+      );
+
+      if (!coordinateMessage) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
+
+      const possibleCoordinates: CoordinateData[] = JSON.parse(
+        coordinateMessage.text,
+      );
+
+      const eventsIds = possibleCoordinates.map((coordinate) => coordinate.id);
+
+      const events = await db.event.findMany({
+        where: {
+          id: {
+            in: eventsIds,
+          },
+        },
+        include: {
+          Address: true,
+        },
+      });
+
+      return events;
+    }),
+
   getMessages: privateProcedure
     .input(GetMessagesValidator)
     .query(async ({ ctx, input }) => {

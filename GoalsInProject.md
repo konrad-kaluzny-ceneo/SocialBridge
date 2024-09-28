@@ -30,20 +30,20 @@
 
 - [ ] Przestrzeń do matchowania
 
-  - [ ] Przycisk rozpocznij współpracę na organizacji
-  - [ ] Przycisk rozpocznij współpracę na eventcie
+  - [x] Przycisk rozpocznij współpracę na organizacji
+  - [x] Przycisk rozpocznij współpracę na eventcie
   - [ ] Przypisywanie budżetu do Eventu
 
-- [ ] Tworzenie wydarzeń
-  - [ ] Lista wydarzeń
-  - [ ] Szczegóły wydarzeń
-  - [ ] Formularz wydarzeń
+- [x] Tworzenie wydarzeń
+  - [x] Lista wydarzeń
+  - [x] Szczegóły wydarzeń
+  - [x] Formularz wydarzeń
 
 - [ ] Dodawanie opinii
   - [ ] Lista opinii
   - [ ] Przycisk dodawania opinii
 
-- [ ] Chat z organizacją
+- [x] Chat z organizacją
 
 - [ ] Presentation PDF
 - [ ] Demo

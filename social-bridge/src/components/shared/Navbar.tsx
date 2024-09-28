@@ -17,6 +17,7 @@ export default async function Navbar() {
 
   const privateLinks: { href: string; label: string }[] = [
     { href: "/init-organization", label: "Twoja wizytówka" },
+    { href: "/events", label: "Wydarzenia" },
     { href: "/chat", label: "Chaty" },
   ];
 
