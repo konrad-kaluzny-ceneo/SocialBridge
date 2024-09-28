@@ -52,4 +52,4 @@ Może?
 
 - [ ] Konto wolontariusza
 - [ ] Benchmark
-- [ ] Mapa AI z propozycjami organizacji
+- [x] Mapa AI z propozycjami organizacji

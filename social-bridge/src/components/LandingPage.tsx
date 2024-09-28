@@ -43,7 +43,7 @@ export default function LandingPage({
           <p className="mt-4 text-lg">
             Biznes i organizacje pozarządowe nigdy nie były bliżej siebie!
           </p>
-          <ul className="mt-8 flex flex-col space-y-2 font-medium">
+          <ul className="mt-8 flex flex-col space-y-2 font-medium text-left">
             {HIGHLIGHTS.map((highlight, index) => (
               <li key={index} className={cn("flex gap-1.5")}>
                 <CheckIcon className="h-5 w-5 shrink-0 text-primary" />
