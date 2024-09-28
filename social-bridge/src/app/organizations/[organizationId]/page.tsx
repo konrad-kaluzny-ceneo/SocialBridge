@@ -28,9 +28,9 @@ export default async function OrganizationPage({
 
   return (
     <WrapperMaxWidth className="flex flex-col gap-4 mb-12">
-      <OrganizationImage
+      {/* <OrganizationImage
         organizationId={organization.id}
-      />
+      /> */}
 
       <OrganizationHeader
         organizationId={organization.id}
