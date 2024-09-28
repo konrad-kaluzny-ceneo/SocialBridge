@@ -40,8 +40,8 @@ const ChatAiMessage = forwardRef<HTMLDivElement, Props>(
         >
           <div
             className={cn("inline-block rounded-lg px-4 py-2", {
-              "bg-primary text-white": message.isUserMessage,
-              "bg-slate-600 text-white": !message.isUserMessage,
+              "bg-primary/30 text-slate-800": message.isUserMessage,
+              "bg-slate-200 text-slate-800": !message.isUserMessage,
               "rounded-br-none":
                 !isNextMessageSamePerson && message.isUserMessage,
               "rounded-bl-none":
@@ -52,7 +52,7 @@ const ChatAiMessage = forwardRef<HTMLDivElement, Props>(
               <>
                 {message.id !== "loading" ? (
                   <>
-                    <div className="text-xs font-bold">
+                    <div className="text-sm font-bold">
                       Umieściłem dla Ciebie na mapie kilka propozycji
                       organizacji.
                     </div>
@@ -65,8 +65,8 @@ const ChatAiMessage = forwardRef<HTMLDivElement, Props>(
               <>
                 {typeof message.text === "string" ? (
                   <ReactMarkdown
-                    className={cn("prose text-xs", {
-                      "text-white": message.isUserMessage,
+                    className={cn("prose text-sm", {
+                      "text-slate-800": message.isUserMessage,
                     })}
                   >
                     {message.text}
@@ -80,7 +80,7 @@ const ChatAiMessage = forwardRef<HTMLDivElement, Props>(
             {message.id !== "loading" ? (
               <div
                 className={cn(
-                  "mt-2 w-full select-none text-right text-xs text-white",
+                  "mt-2 w-full select-none text-right text-sm text-slate-800",
                   {
                     "": !message.isUserMessage,
                     "": message.isUserMessage,
