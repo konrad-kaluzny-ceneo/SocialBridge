@@ -73,7 +73,11 @@ export const ChatContextProvider = ({ chatId, children }: Props) => {
     onError: (_, __, context) => {
       utils.chat.getMessages.setData(
         { chatId },
-        { messages: context?.previousMessages ?? [] },
+        {
+          messages:
+            context?.previousMessages?.pages.flatMap((page) => page.messages) ??
+            [],
+        },
       );
       toast.error("Failed to send message. Please try again.");
     },
