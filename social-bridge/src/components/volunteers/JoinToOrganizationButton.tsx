@@ -16,10 +16,6 @@ export default function JoinToOrganizationButton({ organizationId }: Props) {
     isError,
   } = trpc.user.userCanBeAddedToOrganization.useQuery();
 
-  if (isLoading) return null;
-  if (isError) return null;
-  if (!userCanBeAddedToOrganization) return null;
-
   const { mutate: joinToOrganization, isLoading: isJoiningToOrganization } =
     trpc.organization.joinToOrganization.useMutation({
       onSuccess: () => {
@@ -33,6 +29,10 @@ export default function JoinToOrganizationButton({ organizationId }: Props) {
   const onSubmit = () => {
     joinToOrganization({ organizationId });
   };
+
+  if (isLoading) return null;
+  if (isError) return null;
+  if (!userCanBeAddedToOrganization) return null;
 
   return <Button onClick={onSubmit}>Dołącz do organizacji</Button>;
 }
