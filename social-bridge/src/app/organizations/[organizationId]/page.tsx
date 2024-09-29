@@ -1,5 +1,7 @@
 import EventsOrganizedByOrganization from "@/components/events/EventsOrganizedByOrganization";
 import JoinToOrganizationRequestsList from "@/components/organization/JoinToOrganizationRequestsList";
+import OrganizationFiles from "@/components/organization/OrganizationFiles";
+import OrganizationFileUploadButton from "@/components/organization/OrganizationFileUploadButton";
 import OrganizationHeader from "@/components/organization/OrganizationHeader";
 import OrganizationTeam from "@/components/organization/OrganizationTeam";
 import OrganizationPartnerships from "@/components/partnership/OrganizationPartnerships";
@@ -38,7 +40,6 @@ export default async function OrganizationPage({
 
   return (
     <WrapperMaxWidth className="mb-12 flex flex-col gap-4">
-
       <OrganizationHeader organizationId={organization.id} />
 
       <JoinToOrganizationButton organizationId={organization.id} />
@@ -53,6 +54,10 @@ export default async function OrganizationPage({
 
       <EventsOrganizedByOrganization organizationId={organization.id} />
 
+      <OrganizationFiles organizationId={organization.id} />
+      {isAdminOfOrganization && (
+        <OrganizationFileUploadButton organizationId={organization.id} />
+      )}
     </WrapperMaxWidth>
   );
 }

@@ -510,66 +510,66 @@ async function main() {
   });
 
   // Volunteers of NGO
-  let volunter1 = await prisma.user.findUnique({
+  let mentorProgramming = await prisma.user.findUnique({
     where: {
-      username: "volunteer1",
+      username: "mariawozniak",
     },
   });
 
-  if (!volunter1) {
-    volunter1 = await prisma.user.create({
+  if (!mentorProgramming) {
+    mentorProgramming = await prisma.user.create({
       data: {
-        email: "volunteer1@prisma.io",
-        name: "Volunteer 1",
+        email: "maria.wozniak@rowneszanse.org",
+        name: "Maria Woźniak",
         emailVerified: new Date(),
-        username: "volunteer1",
+        username: "mariawozniak",
         image: "https://i.pravatar.cc/150?img=10",
-        volunteerRole: "Mentor",
-        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        volunteerRole: "Programming Mentor",
+        volunteerStrengths: "Python, Java, Web Development, Data Structures",
         organizationId: ngoOrganization.id,
         isApprovedMember: true,
       },
     });
   }
 
-  let volunteer2 = await prisma.user.findUnique({
+  let mentorMathPhysics = await prisma.user.findUnique({
     where: {
-      username: "volunteer2",
+      username: "piotrlewandowski",
     },
   });
 
-  if (!volunteer2) {
-    volunteer2 = await prisma.user.create({
+  if (!mentorMathPhysics) {
+    mentorMathPhysics = await prisma.user.create({
       data: {
-        email: "volunteer2@prisma.io",
-        name: "Volunteer 2",
+        email: "piotr.lewandowski@rowneszanse.org",
+        name: "Piotr Lewandowski",
         emailVerified: new Date(),
-        username: "volunteer2",
+        username: "piotrlewandowski",
         image: "https://i.pravatar.cc/150?img=11",
-        volunteerRole: "Mentor",
-        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        volunteerRole: "Math and Physics Tutor",
+        volunteerStrengths: "Calculus, Linear Algebra, Mechanics, Thermodynamics",
         organizationId: ngoOrganization.id,
         isApprovedMember: true,
       },
     });
   }
 
-  let volunteer3 = await prisma.user.findUnique({
+  let careerAdvisor = await prisma.user.findUnique({
     where: {
-      username: "volunteer3",
+      username: "agatakaminska",
     },
   });
 
-  if (!volunteer3) {
-    volunteer3 = await prisma.user.create({
+  if (!careerAdvisor) {
+    careerAdvisor = await prisma.user.create({
       data: {
-        email: "volunteer3@prisma.io",
-        name: "Volunteer 3",
+        email: "agata.kaminska@rowneszanse.org",
+        name: "Agata Kamińska",
         emailVerified: new Date(),
-        username: "volunteer3",
+        username: "agatakaminska",
         image: "https://i.pravatar.cc/150?img=12",
-        volunteerRole: "Mentor",
-        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        volunteerRole: "Career Advisor",
+        volunteerStrengths: "Resume Writing, Interview Preparation, Career Planning",
         organizationId: ngoOrganization.id,
         isApprovedMember: false,
       },
@@ -594,7 +594,7 @@ async function main() {
   await prisma.review.create({
     data: {
       eventId: lastEvent.id,
-      userId: volunteer2.id,
+      userId: careerAdvisor.id,
       value: 5,
       comment: "Dzięki za pomoc w organizacji warsztatów!",
     },

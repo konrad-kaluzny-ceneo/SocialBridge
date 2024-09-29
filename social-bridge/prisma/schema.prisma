@@ -204,6 +204,7 @@ model Organization {
   Photos          Photo[]
   NgoRaport       NgoRaport[]
   OrganizedEvents Event[]
+  File            File[]
 
   @@index([addressId])
 }
@@ -371,5 +372,9 @@ model File {
   key      String
   fileName String
   url      String
-}
 
+  Organization   Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+
+  @@index([organizationId])
+}

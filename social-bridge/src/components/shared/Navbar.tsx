@@ -13,11 +13,11 @@ export default async function Navbar() {
 
   const publicLinks: { href: string; label: string }[] = [
     { href: "/organizations", label: "Organizacje" },
+    { href: "/events", label: "Wydarzenia" },
   ];
 
   const privateLinks: { href: string; label: string }[] = [
     { href: "/init-organization", label: "Twoja Organizacja" },
-    { href: "/events", label: "Wydarzenia" },
     { href: "/chat", label: "Czaty" },
     { href: `/volunteers/${userId}`, label: "Twoja Wizytówka" },
   ];

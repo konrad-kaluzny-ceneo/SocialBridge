@@ -8,7 +8,6 @@ const isProtectedRoute = createRouteMatcher([
   "/chat(.*)",
   "/events/create(.*)",
   "/events/map(.*)",
-  "/organizations(.*)",
 ]);
 
 export default clerkMiddleware((auth, req) => {

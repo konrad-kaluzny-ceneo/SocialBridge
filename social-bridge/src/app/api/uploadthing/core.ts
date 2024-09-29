@@ -9,7 +9,15 @@ const middleware = async () => {
 
   if (!userId) throw new Error("Unauthorized");
 
-  return { userId };
+  const user = await db.user.findFirst({
+    where: {
+      id: userId,
+    },
+  });
+
+  const organizationId = user?.organizationId;
+
+  return { userId, organizationId };
 };
 
 const onPhotoUploadComplete = async ({
@@ -56,6 +64,7 @@ const onPdfUploadComplete = async ({
         key: file.key,
         url: file.url,
         fileName: file.name,
+        organizationId: metadata.organizationId!,
       },
     });
 

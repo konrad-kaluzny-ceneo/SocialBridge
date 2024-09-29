@@ -3,8 +3,6 @@ import { $Enums, PartnershipTag, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const isAdminOrganizationCreated = true;
-
   await prisma.organization.deleteMany();
   await prisma.photo.deleteMany();
   await prisma.review.deleteMany();
@@ -74,72 +72,83 @@ async function main() {
     },
   });
 
-  if (isAdminOrganizationCreated) {
-    const adminOrganization = await prisma.organization.create({
-      data: {
-        name: "Fundacja Admini Razem",
-        shortDescription:
-          "Wspieramy adminów i devopsów z całego świata by żyło im się lepiej.",
-        longDescription:
-          "Fundacja Admini Razem została założona w 2020 roku z misją wspierania administratorów systemów i specjalistów DevOps na całym świecie. Nasze działania koncentrują się na organizacji szkoleń, warsztatów, mentoringu oraz tworzeniu narzędzi open-source dla społeczności IT.",
-        sociamImpactStrategy:
-          "Fundacja Admini Razem aktywnie promuje zrównoważone praktyki w infrastrukturze IT, dążąc do redukcji śladu węglowego centrów danych i optymalizacji zużycia energii.",
-        socialGoals:
-          "Naszym celem jest poprawa warunków pracy adminów i DevOps, promowanie work-life balance oraz zwiększanie świadomości na temat znaczenia ich pracy w nowoczesnym świecie technologii.",
-        previousExperience:
-          "Od 2020 roku Fundacja Admini Razem zorganizowała ponad 30 warsztatów online, stworzyła 5 popularnych narzędzi open-source i pomogła ponad 1000 specjalistom IT w rozwoju kariery. Nasze programy mentoringowe zwiększyły satysfakcję z pracy uczestników o 40% i przyczyniły się do 25% wzrostu wynagrodzeń w ciągu roku od ukończenia programu.",
-        projectsToRealize:
-          "Planujemy uruchomić globalną platformę e-learningową dedykowaną zaawansowanym technologiom DevOps i zarządzaniu chmurą. Dodatkowo, pracujemy nad stworzeniem programu certyfikacji dla etycznych hakerów specjalizujących się w bezpieczeństwie infrastruktury. Zamierzamy również zorganizować pierwszą międzynarodową konferencję poświęconą well-being w branży IT.",
-        searchPartnershipTags: [
-          PartnershipTag.FUNDATOR,
-          PartnershipTag.DOSTARCZYCIEL_MATERIALU,
-        ],
-        givePartnershipTags: [PartnershipTag.IT, PartnershipTag.ORGANIZATOR],
-        addressId: adminAddress.id,
-        OrganizationType: $Enums.OrganizationType.NGO,
-        Team: {
-          connect: {
-            id: adminUser.id,
-          },
+  const adminOrganization = await prisma.organization.create({
+    data: {
+      name: "Fundacja Admini Razem",
+      shortDescription:
+        "Wspieramy adminów i devopsów z całego świata by żyło im się lepiej.",
+      longDescription:
+        "Fundacja Admini Razem została założona w 2020 roku z misją wspierania administratorów systemów i specjalistów DevOps na całym świecie. Nasze działania koncentrują się na organizacji szkoleń, warsztatów, mentoringu oraz tworzeniu narzędzi open-source dla społeczności IT.",
+      sociamImpactStrategy:
+        "Fundacja Admini Razem aktywnie promuje zrównoważone praktyki w infrastrukturze IT, dążąc do redukcji śladu węglowego centrów danych i optymalizacji zużycia energii.",
+      socialGoals:
+        "Naszym celem jest poprawa warunków pracy adminów i DevOps, promowanie work-life balance oraz zwiększanie świadomości na temat znaczenia ich pracy w nowoczesnym świecie technologii.",
+      previousExperience:
+        "Od 2020 roku Fundacja Admini Razem zorganizowała ponad 30 warsztatów online, stworzyła 5 popularnych narzędzi open-source i pomogła ponad 1000 specjalistom IT w rozwoju kariery. Nasze programy mentoringowe zwiększyły satysfakcję z pracy uczestników o 40% i przyczyniły się do 25% wzrostu wynagrodzeń w ciągu roku od ukończenia programu.",
+      projectsToRealize:
+        "Planujemy uruchomić globalną platformę e-learningową dedykowaną zaawansowanym technologiom DevOps i zarządzaniu chmurą. Dodatkowo, pracujemy nad stworzeniem programu certyfikacji dla etycznych hakerów specjalizujących się w bezpieczeństwie infrastruktury. Zamierzamy również zorganizować pierwszą międzynarodową konferencję poświęconą well-being w branży IT.",
+      searchPartnershipTags: [
+        PartnershipTag.FUNDATOR,
+        PartnershipTag.DOSTARCZYCIEL_MATERIALU,
+      ],
+      givePartnershipTags: [PartnershipTag.IT, PartnershipTag.ORGANIZATOR],
+      addressId: adminAddress.id,
+      OrganizationType: $Enums.OrganizationType.NGO,
+      Team: {
+        connect: {
+          id: adminUser.id,
         },
       },
-    });
+    },
+  });
 
-    const volunteer3 = await prisma.user.create({
-      data: {
-        email: "volunteer3@prisma.io",
-        name: "Volunteer 3",
-        emailVerified: new Date(),
-        username: "volunteer3",
-        image: "https://i.pravatar.cc/150?img=12",
-        volunteerRole: "Mentor",
-        volunteerStrengths: "Programowanie, matematyka, fizyka",
-        organizationId: adminOrganization.id,
-        isApprovedMember: false,
-      },
-    });
+  const devOpsSpecialist = await prisma.user.create({
+    data: {
+      email: "anna.kowalska@adminrazem.org",
+      name: "Anna Kowalska",
+      emailVerified: new Date(),
+      username: "annakowalska",
+      image: "https://i.pravatar.cc/150?img=16",
+      volunteerRole: "DevOps Specialist",
+      volunteerStrengths: "Kubernetes, Docker, CI/CD, Cloud Infrastructure",
+      organizationId: adminOrganization.id,
+      isApprovedMember: false,
+    },
+  });
 
-    const volunteer4 = await prisma.user.create({
-      data: {
-        email: "volunteer4@prisma.io",
-        name: "Volunteer 4",
-        emailVerified: new Date(),
-        username: "volunteer4",
-        image: "https://i.pravatar.cc/150?img=13",
-        volunteerRole: "Mentor",
-        volunteerStrengths: "Programowanie, matematyka, fizyka",
-        organizationId: adminOrganization.id,
-        isApprovedMember: true,
-      },
-    });
-  }
+  const systemAdministrator = await prisma.user.create({
+    data: {
+      email: "jan.nowak@adminrazem.org",
+      name: "Jan Nowak",
+      emailVerified: new Date(),
+      username: "jannowak",
+      image: "https://i.pravatar.cc/150?img=13",
+      volunteerRole: "System Administrator",
+      volunteerStrengths: "Linux, Windows Server, Network Security, Automation",
+      organizationId: adminOrganization.id,
+      isApprovedMember: true,
+    },
+  });
+
+  const volunteerProgrammingInAdminOrganization = await prisma.user.create({
+    data: {
+      email: "zofia.kowalczyk@adminrazem.org",
+      name: "Zofia Kowalczyk",
+      emailVerified: new Date(),
+      username: "zofiakowalczyk",
+      image: "https://i.pravatar.cc/150?img=15",
+      volunteerRole: "Programming Volunteer",
+      volunteerStrengths: "Python, Java, Web Development, Data Structures",
+      organizationId: adminOrganization.id,
+    },
+  });
 
   const businessBigUser = await prisma.user.create({
     data: {
-      email: "businessbig@prisma.io",
-      name: "Business Big",
+      email: "marek.kowalski@globalex-it.com",
+      name: "Marek Kowalski",
       emailVerified: new Date(),
-      username: "businessbig",
+      username: "marekkowalski",
       image: "https://i.pravatar.cc/150?img=7",
     },
   });
@@ -191,10 +200,10 @@ async function main() {
 
   const businessSmallUser = await prisma.user.create({
     data: {
-      email: "businesssmall@prisma.io",
-      name: "Business Small",
+      email: "adam.nowicki@startupex-it.com",
+      name: "Adam Nowicki",
       emailVerified: new Date(),
-      username: "businesssmall",
+      username: "adamnowicki",
       image: "https://i.pravatar.cc/150?img=8",
     },
   });
@@ -244,10 +253,10 @@ async function main() {
 
   const ngoUser = await prisma.user.create({
     data: {
-      email: "ngo@prisma.io",
-      name: "NGO",
+      email: "katarzyna.wisniewski@rowneszanse.org",
+      name: "Katarzyna Wiśniewski",
       emailVerified: new Date(),
-      username: "ngo",
+      username: "katarzynawisniewski",
       image: "https://i.pravatar.cc/150?img=9",
     },
   });
@@ -305,12 +314,21 @@ async function main() {
   // Events
   const event = await prisma.event.create({
     data: {
-      title: "Warsztaty programowania dla młodzieży",
-      description:
-        "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
-      startEvent: new Date(
-        Date.now() + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
-      ),
+      title: "Warsztaty programowania dla młodzieży: 'Kod dla przyszłości'",
+      description: `Zapraszamy młodzież z obszarów wiejskich na intensywne warsztaty programowania 'Kod dla przyszłości'! 
+
+      W trakcie tego trzydniowego wydarzenia, uczestnicy będą mieli okazję:
+      • Poznać podstawy programowania w Python i JavaScript
+      • Stworzyć własną prostą aplikację webową
+      • Pracować z profesjonalnymi narzędziami deweloperskimi
+      • Uczestniczyć w inspirujących sesjach z doświadczonymi programistami
+      
+      Warsztaty są dostosowane do osób bez wcześniejszego doświadczenia w programowaniu. Zapewniamy sprzęt komputerowy, materiały edukacyjne oraz pełne wyżywienie. 
+      
+      Naszym celem jest nie tylko nauczenie podstaw kodowania, ale także inspirowanie młodych ludzi do rozwijania umiejętności cyfrowych i pokazanie im możliwości kariery w branży IT.
+      
+      Liczba miejsc ograniczona do 20 uczestników. Nie przegap tej szansy na start w świecie technologii!`,
+      startEvent: new Date(new Date().setDate(new Date().getDate() + 4)),
       eventType: $Enums.EventType.GROUP_WORKSHOP,
       eventStatus: $Enums.EventStatus.ACTIVE,
       budget: 10000,
@@ -327,17 +345,27 @@ async function main() {
 
   const event2 = await prisma.event.create({
     data: {
-      title: "Warsztaty programowania dla młodzieży",
-      description:
-        "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
-      startEvent: new Date(
-        Date.now() + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
-      ),
+      title: "Warsztaty Rozwoju Osobistego dla Młodzieży",
+      description: `Zapraszamy młodzież w wieku 15-19 lat na inspirujące warsztaty rozwoju osobistego!
+
+      Podczas tego trzydniowego wydarzenia uczestnicy będą mieli okazję:
+      • Odkryć swoje mocne strony i talenty
+      • Nauczyć się technik efektywnego zarządzania czasem
+      • Rozwinąć umiejętności komunikacyjne i pracy w zespole
+      • Poznać podstawy przedsiębiorczości i planowania kariery
+      • Uczestniczyć w sesjach z doświadczonymi mentorami
+
+      Warsztaty są dostosowane do potrzeb młodzieży z różnych środowisk. Zapewniamy materiały edukacyjne, pełne wyżywienie oraz przyjazną atmosferę sprzyjającą nauce i integracji.
+
+      Naszym celem jest nie tylko przekazanie praktycznej wiedzy, ale także inspirowanie młodych ludzi do odkrywania swojego potencjału i aktywnego kształtowania swojej przyszłości.
+
+      Liczba miejsc ograniczona do 30 uczestników. Nie przegap tej szansy na inwestycję w swój rozwój osobisty!`,
+      startEvent: new Date(new Date().setDate(new Date().getDate() + 14)),
       eventType: $Enums.EventType.GROUP_WORKSHOP,
       eventStatus: $Enums.EventStatus.ACTIVE,
-      budget: 10000,
-      addressId: someAddress1.id,
-      eventOrganizerId: businessBigOrganization.id,
+      budget: 15000,
+      addressId: someAddress2.id,
+      eventOrganizerId: ngoOrganization.id,
     },
   });
 
@@ -437,33 +465,117 @@ async function main() {
   });
 
   // Volunteers of NGO
-  const volunteer1 = await prisma.user.create({
+  const mentorProgramming = await prisma.user.create({
     data: {
-      email: "volunteer1@prisma.io",
-      name: "Volunteer 1",
+      email: "maria.wozniak@rowneszanse.org",
+      name: "Maria Woźniak",
       emailVerified: new Date(),
-      username: "volunteer1",
+      username: "mariawozniak",
       image: "https://i.pravatar.cc/150?img=10",
-      volunteerRole: "Mentor",
-      volunteerStrengths: "Programowanie, matematyka, fizyka",
+      volunteerRole: "Programming Mentor",
+      volunteerStrengths: "Python, Java, Web Development, Data Structures",
       organizationId: ngoOrganization.id,
       isApprovedMember: true,
     },
   });
 
-  const volunteer2 = await prisma.user.create({
+  const mentorMathPhysics = await prisma.user.create({
     data: {
-      email: "volunteer2@prisma.io",
-      name: "Volunteer 2",
+      email: "piotr.lewandowski@rowneszanse.org",
+      name: "Piotr Lewandowski",
       emailVerified: new Date(),
-      username: "volunteer2",
+      username: "piotrlewandowski",
       image: "https://i.pravatar.cc/150?img=11",
-      volunteerRole: "Mentor",
-      volunteerStrengths: "Programowanie, matematyka, fizyka",
+      volunteerRole: "Math and Physics Tutor",
+      volunteerStrengths: "Calculus, Linear Algebra, Mechanics, Thermodynamics",
       organizationId: ngoOrganization.id,
       isApprovedMember: true,
     },
   });
+
+  const careerAdvisor = await prisma.user.create({
+    data: {
+      email: "agata.kaminska@rowneszanse.org",
+      name: "Agata Kamińska",
+      emailVerified: new Date(),
+      username: "agatakaminska",
+      image: "https://i.pravatar.cc/150?img=12",
+      volunteerRole: "Career Advisor",
+      volunteerStrengths:
+        "Resume Writing, Interview Preparation, Career Planning",
+      organizationId: ngoOrganization.id,
+      isApprovedMember: true,
+    },
+  });
+
+  const volunteerProgramming = await prisma.user.create({
+    data: {
+      email: "anna.nowak@rowneszanse.org",
+      name: "Anna Nowak",
+      emailVerified: new Date(),
+      username: "annanowak",
+      image: "https://i.pravatar.cc/150?img=13",
+      volunteerRole: "Programming Volunteer",
+      volunteerStrengths: "Python, Java, Web Development, Data Structures",
+      organizationId: ngoOrganization.id,
+      isApprovedMember: true,
+    },
+  });
+
+  const volunteerMathPhysics = await prisma.user.create({
+    data: {
+      email: "tomasz.kowalski@rowneszanse.org",
+      name: "Tomasz Kowalski",
+      emailVerified: new Date(),
+      username: "tomaszkowalski",
+      image: "https://i.pravatar.cc/150?img=14",
+      volunteerRole: "Math and Physics Tutor",
+      volunteerStrengths: "Calculus, Linear Algebra, Mechanics, Thermodynamics",
+      organizationId: ngoOrganization.id,
+      isApprovedMember: true,
+    },
+  });
+
+  const fileAdminOrganization = await prisma.file.create({
+    data: {
+      url: "https://utfs.io/f/Vol3iIj3beFpXObFVmpQRYJAxyE7oU30gfZtqabS2CkwBzie",
+      key: "const",
+      fileName: "Statut ORganizacji",
+      organizationId: adminOrganization.id,
+    },
+  });
+
+
+  const lastEvent = await prisma.event.create({
+    data: {
+      title: "Warsztaty programowania dla młodzieży: 'Cyfrowa Przyszłość'",
+      description: `Zapraszamy młodzież z obszarów wiejskich na intensywne warsztaty programowania 'Cyfrowa Przyszłość'!
+
+      Podczas tego dwudniowego wydarzenia, uczestnicy będą mieli okazję:
+      • Poznać podstawy programowania w Python
+      • Stworzyć własną prostą grę komputerową
+      • Nauczyć się podstaw tworzenia stron internetowych (HTML, CSS)
+      • Pracować z profesjonalnymi narzędziami deweloperskimi
+      • Uczestniczyć w inspirujących sesjach z doświadczonymi programistami z Globalex IT
+
+      Warsztaty są dostosowane do osób bez wcześniejszego doświadczenia w programowaniu. Zapewniamy sprzęt komputerowy, materiały edukacyjne oraz pełne wyżywienie. 
+
+      Naszym celem jest nie tylko nauczenie podstaw kodowania, ale także inspirowanie młodych ludzi do rozwijania umiejętności cyfrowych i pokazanie im możliwości kariery w branży IT. Chcemy, aby uczestnicy odkryli, że programowanie może być fascynującą przygodą i narzędziem do realizacji własnych pomysłów.
+
+      Po warsztatach, uczestnicy otrzymają certyfikaty ukończenia oraz dostęp do platformy online z dodatkowymi materiałami edukacyjnymi, aby mogli kontynuować naukę we własnym tempie.
+
+      Liczba miejsc ograniczona do 15 uczestników. Nie przegap tej szansy na start w świecie technologii!`,
+      startEvent: new Date(new Date().setDate(new Date().getDate() - 4)),
+      eventType: $Enums.EventType.GROUP_WORKSHOP,
+      eventStatus: $Enums.EventStatus.COMPLETED,
+      budget: 8000,
+      addressId: someAddress1.id,
+      eventOrganizerId: businessBigOrganization.id,
+    },
+  });
+
+
+  
 }
 
 main()
