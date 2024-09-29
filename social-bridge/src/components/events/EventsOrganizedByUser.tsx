@@ -28,14 +28,6 @@ export default function EventsOrganizedByUser({ userId }: Props) {
     }
   }, [eventsDb]);
 
-  if (isLoading) return <EventsSkeleton />;
-  if (isError) return null;
-
-  const upcomingEvents =
-    events?.filter((event) => new Date(event.startEvent) > new Date()) || [];
-  const pastEvents =
-    events?.filter((event) => new Date(event.startEvent) <= new Date()) || [];
-
   const handleReviewAdded = (addedReview: Review) => {
     setEvents((prevEvents) =>
       prevEvents?.map((event) =>
@@ -46,6 +38,14 @@ export default function EventsOrganizedByUser({ userId }: Props) {
     );
   };
 
+  if (isLoading) return <EventsSkeleton />;
+  if (isError) return null;
+
+  const upcomingEvents =
+    events?.filter((event) => new Date(event.startEvent) > new Date()) || [];
+  const pastEvents =
+    events?.filter((event) => new Date(event.startEvent) <= new Date()) || [];
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -55,7 +55,9 @@ export default function EventsOrganizedByUser({ userId }: Props) {
         <div>
           <h3 className="mb-4 text-lg font-semibold">Nadchodzące wydarzenia</h3>
           {upcomingEvents.length === 0 ? (
-            <p className="text-center text-gray-500">Brak nadchodzących wydarzeń</p>
+            <p className="text-center text-gray-500">
+              Brak nadchodzących wydarzeń
+            </p>
           ) : (
             <div className="space-y-4">
               {upcomingEvents.map((event) => (
@@ -72,7 +74,9 @@ export default function EventsOrganizedByUser({ userId }: Props) {
         <div>
           <h3 className="mb-4 text-lg font-semibold">Poprzednie wydarzenia</h3>
           {pastEvents.length === 0 ? (
-            <p className="text-center text-gray-500">Brak poprzednich wydarzeń</p>
+            <p className="text-center text-gray-500">
+              Brak poprzednich wydarzeń
+            </p>
           ) : (
             <div className="space-y-4">
               {pastEvents.map((event) => (

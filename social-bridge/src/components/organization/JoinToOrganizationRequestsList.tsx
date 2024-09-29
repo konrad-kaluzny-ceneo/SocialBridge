@@ -30,10 +30,6 @@ export default function JoinToOrganizationRequestsList({
     }
   }, [pendingListDb]);
 
-  if (isLoading) return null;
-  if (isError) return null;
-  if (!pendingList) return null;
-
   function handleUserAccepted(userId: string) {
     setPendingList(pendingList.filter((user) => user.id !== userId));
   }
@@ -41,6 +37,10 @@ export default function JoinToOrganizationRequestsList({
   function handleUserRejected(userId: string) {
     setPendingList(pendingList.filter((user) => user.id !== userId));
   }
+
+  if (isLoading) return null;
+  if (isError) return null;
+  if (!pendingList) return null;
 
   return (
     <Card className="w-full">
@@ -53,11 +53,19 @@ export default function JoinToOrganizationRequestsList({
         ) : (
           <ul className="space-y-4">
             {pendingList.map((user) => (
-              <li key={user.id} className="flex items-center justify-between space-x-4">
+              <li
+                key={user.id}
+                className="flex items-center justify-between space-x-4"
+              >
                 <div className="flex items-center space-x-4">
                   <Avatar>
-                    <AvatarImage src={user.image || undefined} alt={user.name || ''} />
-                    <AvatarFallback>{user.name?.charAt(0) || '?'}</AvatarFallback>
+                    <AvatarImage
+                      src={user.image || undefined}
+                      alt={user.name || ""}
+                    />
+                    <AvatarFallback>
+                      {user.name?.charAt(0) || "?"}
+                    </AvatarFallback>
                   </Avatar>
                   <div>
                     <p className="font-medium">{user.name}</p>

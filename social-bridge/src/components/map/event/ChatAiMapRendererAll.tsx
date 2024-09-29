@@ -23,11 +23,11 @@ export default function ChatMapRendererAll({}: Props) {
 
   if (error) {
     toast.error("Failed to load events");
-    return <div>Failed to load events</div>;
+    return null;
   }
 
   if (!events || events.length === 0) {
-    return <div>No events found</div>;
+    return null;
   }
 
   const mapLocations: MapLocation[] = events
