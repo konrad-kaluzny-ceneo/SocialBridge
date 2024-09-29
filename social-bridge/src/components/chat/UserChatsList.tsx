@@ -4,6 +4,7 @@ import { trpc } from "@/server/client";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+
 export default function UserChatsList() {
   const { data: chats, isLoading, isError } = trpc.chat.getChats.useQuery();
 
@@ -14,7 +15,7 @@ export default function UserChatsList() {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Your Chats</CardTitle>
+        <CardTitle>Twoje czaty</CardTitle>
       </CardHeader>
       <CardContent>
         <div

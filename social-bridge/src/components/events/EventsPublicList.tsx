@@ -12,7 +12,7 @@ export default function EventsPublicList({ future }: EventsPublicListProps) {
     data: eventsDb,
     isLoading,
     isError,
-  } = trpc.events.getEvents.useQuery({ incoming: true });
+  } = trpc.events.getEvents.useQuery({ incoming: future });
 
   if (isLoading) return null;
   if (isError) return null;
@@ -21,8 +21,8 @@ export default function EventsPublicList({ future }: EventsPublicListProps) {
 
   return (
     <div className="flex w-full flex-col">
-      <h2 className="mh-2">Sprawdź nadchodzące wydarzenia</h2>
-      <div className="mt-4 flex w-full gap-4">
+        <h2 className="text-xl font-semibold">Sprawdź nadchodzące wydarzenia</h2>
+      <div className="mt-4 flex w-full flex-col gap-4">
         <EventsList eventsInit={eventsDb} showImages={true} />
       </div>
     </div>

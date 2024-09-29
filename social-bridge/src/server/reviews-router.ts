@@ -23,8 +23,7 @@ export const reviewsRouter = router({
       const review = await db.review.create({
         data: {
           eventId: input.eventId,
-          reviewerId: ctx.user.id,
-          reviewedUserId: input.reviewedUserId,
+          userId: ctx.user.id,
           value: input.value,
           comment: input.comment ?? "",
         },
@@ -52,15 +51,12 @@ export const reviewsRouter = router({
       const review = await db.review.findFirst({
         where: {
           eventId: input.eventId,
-          reviewerId: user.id,
+          userId: user.id,
         },
       });
 
       if (!review) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Recenzja nie została znaleziona",
-        });
+        return null;
       }
 
       return review;

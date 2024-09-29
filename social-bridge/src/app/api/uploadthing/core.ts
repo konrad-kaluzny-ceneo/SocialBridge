@@ -39,10 +39,40 @@ const onPhotoUploadComplete = async ({
   }
 };
 
+const onPdfUploadComplete = async ({
+  metadata,
+  file,
+}: {
+  metadata: Awaited<ReturnType<typeof middleware>>;
+  file: {
+    key: string;
+    name: string;
+    url: string;
+  };
+}) => {
+  try {
+    const uploadedFile = await db.file.create({
+      data: {
+        key: file.key,
+        url: file.url,
+        fileName: file.name,
+      },
+    });
+
+    return { uploadedFile };
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
+};
+
 export const ourFileRouter = {
   photoUploader: f({ image: { maxFileSize: "16MB" } })
     .middleware(middleware)
     .onUploadComplete(onPhotoUploadComplete),
+  pdfUploader: f({ pdf: { maxFileSize: "16MB" } })
+    .middleware(middleware)
+    .onUploadComplete(onPdfUploadComplete),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

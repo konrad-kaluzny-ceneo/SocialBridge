@@ -19,7 +19,7 @@ export default function EventsIncoming() {
 
   return (
     <div>
-      <h2 className="mh-2">Twoje nadchodzące wydarzenia</h2>
+      <h2 className="text-xl font-semibold">Twoje nadchodzące wydarzenia</h2>
       <div className="mt-4 grid grid-cols-1 gap-4">
         <EventsList eventsInit={eventsDb} showImages={true} />
       </div>

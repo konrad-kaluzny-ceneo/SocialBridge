@@ -19,8 +19,10 @@ export default function EventsLast() {
     <>
       {eventsDb.length > 0 && (
         <div>
-          <h2 className="mh-2">Wydarzenia, w których brałeś udział</h2>
-          <div className="mt-4 grid grid-cols-1 gap-4">
+          <h2 className="text-xl font-semibold">
+            Wydarzenia, w których brałeś udział
+          </h2>
+          <div className="mt-4 flex flex-col gap-4">
             <EventsList eventsInit={eventsDb} showImages={true} />
           </div>
         </div>

@@ -130,6 +130,18 @@ export const organizationRouter = router({
     return organizations;
   }),
 
+  getUserOrganization: privateProcedure.query(async ({ ctx }) => {
+    const { userId } = ctx;
+    const organization = await db.organization.findFirst({
+      where: {
+        Team: {
+          some: { id: userId },
+        },
+      },
+    });
+    return organization;
+  }),
+
   getOrganizationsByUser: privateProcedure.query(async ({ ctx }) => {
     const { userId } = ctx;
     const organizations = await db.organization.findMany({

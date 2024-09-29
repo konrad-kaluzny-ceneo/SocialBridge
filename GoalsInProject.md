@@ -37,17 +37,18 @@
   - [x] Szczegóły wydarzeń
   - [x] Formularz wydarzeń
 
-- [ ] Dodawanie opinii
-  - [ ] Lista opinii
-  - [ ] Przycisk dodawania opinii
+- [x] Dodawanie opinii
+  - [x] Lista opinii
+  - [x] Przycisk dodawania opinii
 
 - [x] Chat z organizacją
 
-- [ ] Presentation PDF
+- [x] Presentation PDF
 - [ ] Demo
+- [ ] Testy
 
 Może?
 
-- [ ] Konto wolontariusza
+- [x] Konto wolontariusza
 - [ ] Benchmark
 - [x] Mapa AI z propozycjami organizacji

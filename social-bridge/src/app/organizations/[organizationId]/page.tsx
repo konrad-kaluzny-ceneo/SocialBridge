@@ -1,6 +1,6 @@
+import EventsOrganizedByOrganization from "@/components/events/EventsOrganizedByOrganization";
 import JoinToOrganizationRequestsList from "@/components/organization/JoinToOrganizationRequestsList";
 import OrganizationHeader from "@/components/organization/OrganizationHeader";
-import OrganizationImageBig from "@/components/organization/OrganizationImageBig";
 import OrganizationTeam from "@/components/organization/OrganizationTeam";
 import OrganizationPartnerships from "@/components/partnership/OrganizationPartnerships";
 import WrapperMaxWidth from "@/components/shared/WrapperMaxWidth";
@@ -50,6 +50,9 @@ export default async function OrganizationPage({
       {isAdminOfOrganization && (
         <JoinToOrganizationRequestsList organizationId={organization.id} />
       )}
+
+      <EventsOrganizedByOrganization organizationId={organization.id} />
+
     </WrapperMaxWidth>
   );
 }

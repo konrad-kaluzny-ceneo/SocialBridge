@@ -59,3 +59,13 @@ export const EventCreateValidator = z.object({
 export type GetEventRequest = z.infer<typeof GetEventValidator>;
 export type GetEventsRequest = z.infer<typeof GetEventsValidator>;
 export type EventCreateRequest = z.infer<typeof EventCreateValidator>;
+
+export const GetEventsOrganizedByUserValidator = z.object({
+  incoming: z.boolean().optional(),
+  last: z.boolean().optional(),
+  userId: z.string(),
+});
+
+export type GetEventsOrganizedByUserRequest = z.infer<
+  typeof GetEventsOrganizedByUserValidator
+>;

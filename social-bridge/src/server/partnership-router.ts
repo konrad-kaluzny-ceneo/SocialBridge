@@ -11,7 +11,7 @@ import {
 } from "@/validators/partnership";
 
 export const partnershipRouter = router({
-  getPartners: privateProcedure
+  getEventPartners: privateProcedure
     .input(GetPartnershipRequestValidator)
     .query(async ({ ctx, input }) => {
       const { eventId } = input;
@@ -27,6 +27,10 @@ export const partnershipRouter = router({
               .map((partnership) => partnership.partnerId)
               .filter((id): id is string => id !== null),
           },
+        },
+        include: {
+          Address: true,
+          Photos: true,
         },
       });
 
@@ -269,10 +273,7 @@ export const partnershipRouter = router({
       });
 
       if (!organization) {
-        throw new TRPCError({
-          code: "NOT_FOUND",
-          message: "Organizacja nie została znaleziona",
-        });
+        return false;
       }
 
       // check if user organization is not already partnered with organizationId
@@ -297,5 +298,8 @@ export const partnershipRouter = router({
       if (partnershipAsPartner.length > 0) {
         return false;
       }
+
+      return true;
     }),
+
 });

@@ -5,13 +5,11 @@ import EventAddReviewButton from "./EventAddReviewButton";
 
 type Props = {
   eventId: string;
-  reviewedUserId: string;
   onReviewAdded: (addedReview: Review) => void;
 };
 
 export default function EventAddReviewButtonWrapper({
   eventId,
-  reviewedUserId,
   onReviewAdded,
 }: Props) {
   const {
@@ -24,14 +22,13 @@ export default function EventAddReviewButtonWrapper({
 
   if (isLoading) return null;
   if (isError) return null;
+  if (!reviewDb)
+    return (
+      <EventAddReviewButton
+        eventId={eventId}
+        onReviewAdded={onReviewAdded}
+      />
+    );
 
   if (reviewDb) return <ReviewBadge Review={reviewDb} />;
-
-  return (
-    <EventAddReviewButton
-      eventId={eventId}
-      reviewedUserId={reviewedUserId}
-      onReviewAdded={onReviewAdded}
-    />
-  );
 }

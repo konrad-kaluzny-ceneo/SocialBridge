@@ -386,7 +386,7 @@ async function main() {
       title: "Warsztaty programowania dla młodzieży",
       description:
         "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
-      startEvent: new Date(),
+      startEvent: new Date(new Date().setDate(new Date().getDate() + 4)),
       eventType: $Enums.EventType.GROUP_WORKSHOP,
       eventStatus: $Enums.EventStatus.ACTIVE,
       budget: 10000,
@@ -406,7 +406,7 @@ async function main() {
       title: "Warsztaty programowania dla młodzieży",
       description:
         "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
-      startEvent: new Date(),
+      startEvent: new Date(new Date().setDate(new Date().getDate() + 4)),
       eventType: $Enums.EventType.GROUP_WORKSHOP,
       eventStatus: $Enums.EventStatus.ACTIVE,
       budget: 10000,
@@ -575,6 +575,30 @@ async function main() {
       },
     });
   }
+
+  const lastEvent = await prisma.event.create({
+    data: {
+      title: "Warsztaty programowania dla młodzieży",
+      description:
+        "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
+      startEvent: new Date(new Date().setDate(new Date().getDate() - 4)),
+      eventType: $Enums.EventType.GROUP_WORKSHOP,
+      eventStatus: $Enums.EventStatus.ACTIVE,
+      budget: 10000,
+      addressId: someAddress1.id,
+      eventOrganizerId: businessBigOrganization.id,
+    },
+  });
+
+  // review to last event
+  await prisma.review.create({
+    data: {
+      eventId: lastEvent.id,
+      userId: volunteer2.id,
+      value: 5,
+      comment: "Dzięki za pomoc w organizacji warsztatów!",
+    },
+  });
 }
 
 main()

@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { privateProcedure, publicProcedure, router } from "./trpc";
 import {
   EventCreateValidator,
+  GetEventsOrganizedByUserValidator,
   GetEventsValidator,
   GetEventValidator,
 } from "@/validators/event";
@@ -19,6 +20,25 @@ export const eventsRouter = router({
           Reviews: true,
           Address: true,
           Photos: true,
+          EventOrganizer: {
+            include: {
+              Team: true,
+            },
+          },
+          Partnerships: {
+            include: {
+              Partner: {
+                include: {
+                  Team: true,
+                },
+              },
+              Organizer: {
+                include: {
+                  Team: true,
+                },
+              },
+            },
+          },
         },
       });
       return event;
@@ -28,6 +48,9 @@ export const eventsRouter = router({
     .input(GetEventsValidator)
     .query(async ({ input }) => {
       const { incoming, last, organizationId } = input;
+      // console.log("incoming", incoming);
+      // console.log("last", last);
+      // console.log("organizationId", organizationId);
 
       const events = await db.event.findMany({
         where: {
@@ -43,6 +66,9 @@ export const eventsRouter = router({
           Photos: true,
         },
       });
+
+      // console.log("events", events);
+
       return events;
     }),
 
@@ -118,5 +144,76 @@ export const eventsRouter = router({
       });
 
       return event;
+    }),
+
+  userCanAddReview: privateProcedure
+    .input(GetEventValidator)
+    .query(async ({ input, ctx }) => {
+      const { eventId } = input;
+      const { user } = ctx;
+
+      const event = await db.event.findUnique({
+        where: { id: eventId },
+        include: {
+          Partnerships: {
+            include: {
+              Organizer: true,
+              Partner: true,
+            },
+          },
+        },
+      });
+
+      if (!event) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Event not found",
+        });
+      }
+
+      const isPastEvent = new Date(event.startEvent) < new Date();
+      const isOrganizer = event.Partnerships.some(
+        (partnership) => partnership.Organizer?.id === user.id,
+      );
+
+      const isPartner = event.Partnerships.some(
+        (partnership) => partnership.Partner?.id === user.id,
+      );
+
+      if (!isPastEvent || (!isOrganizer && !isPartner)) {
+        return false;
+      }
+
+      const userReviews = await db.review.findMany({
+        where: {
+          eventId,
+          userId: user.id,
+        },
+      });
+
+      return userReviews.length === 0;
+    }),
+
+  getEventsOrganizedByUser: publicProcedure
+    .input(GetEventsOrganizedByUserValidator)
+    .query(async ({ input }) => {
+      const { userId, incoming, last } = input;
+
+      const events = await db.event.findMany({
+        where: {
+          eventOrganizerId: userId,
+          startEvent: {
+            gte: incoming ? new Date() : undefined,
+            lte: last ? new Date() : undefined,
+          },
+        },
+        include: {
+          Reviews: true,
+          Address: true,
+          Photos: true,
+        },
+      });
+
+      return events;
     }),
 });

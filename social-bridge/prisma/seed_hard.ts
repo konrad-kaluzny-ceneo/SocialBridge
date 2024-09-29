@@ -308,7 +308,9 @@ async function main() {
       title: "Warsztaty programowania dla młodzieży",
       description:
         "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
-      startEvent: new Date(),
+      startEvent: new Date(
+        Date.now() + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+      ),
       eventType: $Enums.EventType.GROUP_WORKSHOP,
       eventStatus: $Enums.EventStatus.ACTIVE,
       budget: 10000,
@@ -328,7 +330,9 @@ async function main() {
       title: "Warsztaty programowania dla młodzieży",
       description:
         "Warsztaty programowania dla młodzieży z obszarów wiejskich.",
-      startEvent: new Date(),
+      startEvent: new Date(
+        Date.now() + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+      ),
       eventType: $Enums.EventType.GROUP_WORKSHOP,
       eventStatus: $Enums.EventStatus.ACTIVE,
       budget: 10000,

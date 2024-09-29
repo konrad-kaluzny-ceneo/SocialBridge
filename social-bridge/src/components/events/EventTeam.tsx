@@ -6,24 +6,47 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import { User } from "@prisma/client";
+import { Badge } from "@nextui-org/react";
 
 type Props = {
-  organizationId: string;
+  eventId: string;
 };
 
-export default function OrganizationTeam({ organizationId }: Props) {
-  const { data: organization, isLoading } =
-    trpc.organization.getOrganization.useQuery({
-      organizationId,
-    });
+export default function EventTeam({ eventId }: Props) {
+  const {
+    data: event,
+    isLoading,
+    isError,
+  } = trpc.events.getEvent.useQuery({
+    eventId,
+  });
 
   if (isLoading) {
     return <TeamSkeleton />;
   }
 
-  if (!organization) {
+  if (isError) {
     return null;
   }
+
+  if (!event) {
+    return null;
+  }
+
+  const teamMembersInPartnerships = event.Partnerships.flatMap(
+    (partnership) => [
+      ...(partnership.Partner?.Team.map((member) => ({
+        ...member,
+      })) || []),
+    ],
+  );
+
+  const teamMemberOfOrganizer = event.EventOrganizer.Team?.map((member) => ({
+    ...member,
+  }));
+
+  const teamMembers = [...teamMembersInPartnerships, ...teamMemberOfOrganizer];
 
   return (
     <Card className="w-full">
@@ -32,7 +55,7 @@ export default function OrganizationTeam({ organizationId }: Props) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {organization.Team.map((member) => (
+          {teamMembers.map((member) => (
             <Link
               key={member.id}
               href={`/volunteers/${member.id}`}
@@ -43,6 +66,7 @@ export default function OrganizationTeam({ organizationId }: Props) {
                 <AvatarFallback>{member.name?.charAt(0) || "?"}</AvatarFallback>
               </Avatar>
               <div>
+                <Badge>{member.volunteerRole}</Badge>
                 <p className="font-medium">{member.name}</p>
                 <p className="text-sm text-gray-500">{member.volunteerRole}</p>
               </div>

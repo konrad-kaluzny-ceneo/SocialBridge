@@ -6,6 +6,7 @@ import { db } from "@/db";
 import EventHeader from "@/components/events/EventHeader";
 import EventMap from "@/components/events/EventMap";
 import { currentUser } from "@clerk/nextjs/server";
+import EventTeam from "../../../components/events/EventTeam";
 
 type Props = {
   params: {
@@ -46,9 +47,11 @@ export default async function EventPage({ params }: Props) {
 
       <EventInfo eventId={eventId} />
 
-      <EventPartners eventId={eventId} />
+      <EventPartners eventId={eventId} organizationId={event.eventOrganizerId} />
 
-      <EventMap eventId={eventId} />
+      <EventTeam eventId={eventId} />
+
+      {/* <EventMap eventId={eventId} /> */}
     </WrapperMaxWidth>
   );
 }

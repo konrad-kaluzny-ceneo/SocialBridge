@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const AddReviewValidator = z.object({
   eventId: z.string(),
-  reviewedUserId: z.string(),
   value: z.number().min(1).max(5),
   comment: z.string().optional(),
 });

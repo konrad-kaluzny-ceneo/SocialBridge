@@ -35,20 +35,17 @@ import { Textarea } from "@/components/ui/textarea";
 
 type Props = {
   eventId: string;
-  reviewedUserId: string;
   onReviewAdded: (addedReview: Review) => void;
 };
 
 export default function EventAddReviewButton({
   eventId,
-  reviewedUserId,
   onReviewAdded,
 }: Props) {
   const form = useForm<AddReviewRequest>({
     resolver: zodResolver(AddReviewValidator),
     defaultValues: {
       eventId,
-      reviewedUserId,
       value: 0,
       comment: "",
     },
@@ -88,13 +85,13 @@ export default function EventAddReviewButton({
       <DialogTrigger
         className={cn(buttonVariants(), "flex items-center lg:w-fit")}
       >
-        <PlusIcon className="mr-2" /> Ocena
+        <PlusIcon className="mr-2" /> Recenzja
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Dodaj opinię</DialogTitle>
+          <DialogTitle>Dodaj recenzję</DialogTitle>
           <DialogDescription>
-            Wprowadź opinię dla tego wydarzenia. Kliknij zapisz, gdy skończysz.
+            Oceń wydarzenie, które organizowałeś.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -135,7 +132,7 @@ export default function EventAddReviewButton({
                     <Textarea rows={5} {...field} />
                   </FormControl>
                   <FormDescription>
-                    Opisz swoje doświadczenie z tego wydarzenia
+                    Opisz swoje doświadczenie z organizacji tego wydarzenia.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

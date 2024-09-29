@@ -8,6 +8,9 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import EventAddReviewButtonWrapper from "./EventAddReviewButtonWrapper";
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CalendarIcon, MapPinIcon } from "lucide-react";
 
 type Props = {
   event: Event;
@@ -28,50 +31,62 @@ export default function EventRow({
     eventId: event.id,
   });
 
-  if (isLoading) return null;
+  const {
+    data: userCanAddReview,
+    isLoading: userCanAddReviewLoading,
+    isError: userCanAddReviewError,
+  } = trpc.events.userCanAddReview.useQuery({
+    eventId: event.id,
+  });
+
+  if (isLoading || !eventDb) return null;
   if (isError) return null;
-  if (!eventDb) return null;
 
   return (
-    <Link
-      href={`/events/${event.id}`}
-      key={event.id}
-      className="w-full rounded-md border border-slate-200 bg-white p-4"
-    >
-      <div>
-        <div className="flex w-full flex-col gap-2">
-          <div>
-            {showImages && (
-              <Image
-                src={`/images/eventTypes/${eventDb?.eventType}.jpg`}
-                alt={eventDb?.eventType ?? "zdjęcie wydarzenia"}
-                width={800}
-                height={800}
-                priority
-                className="h-24 w-full rounded-md object-cover"
-              />
-            )}
-
-            <div className={cn("flex flex-col")}>
-              <p className="text-2xl font-semibold">
-                {getEventTypeName(eventDb?.eventType)}
-                {eventDb?.title}
-              </p>
-              <p className="text-sm">
-                ({formatDate(event.startEvent, "dd.MM.yyyy")})
-              </p>
+    <Link href={`/events/${event.id}`} className="block w-full">
+      <Card className="w-full transition-shadow duration-300 hover:shadow-md">
+        <CardHeader className="flex flex-row items-start gap-6">
+          {showImages && (
+            <Image
+              src={`/images/eventTypes/${eventDb.eventType}.jpg`}
+              alt={eventDb.eventType ?? "zdjęcie wydarzenia"}
+              width={120}
+              height={120}
+              priority
+              className="h-32 w-32 rounded-md object-cover"
+            />
+          )}
+          <div className="flex flex-col gap-3 flex-grow">
+            <CardTitle className="text-xl font-bold">
+              <p>{eventDb.title}</p>
+              <Badge variant="secondary" className="mt-2">
+                {getEventTypeName(eventDb.eventType)}
+              </Badge>
+            </CardTitle>
+            <div className="flex flex-col gap-2 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <CalendarIcon className="h-4 w-4" />
+                {formatDate(event.startEvent, "dd.MM.yyyy")}
+              </div>
+              <div className="flex items-center gap-2">
+                <MapPinIcon className="h-4 w-4" />
+                {eventDb.Address.city}
+              </div>
             </div>
           </div>
-
-          <div className="flex flex-col gap-2 lg:flex-row">
-            <EventAddReviewButtonWrapper
-              eventId={event.id}
-              reviewedUserId={eventDb?.eventOrganizerId}
-              onReviewAdded={onReviewAdded}
-            />
-          </div>
-        </div>
-      </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-gray-600 mb-4 line-clamp-3">{eventDb.description}</p>
+          {userCanAddReview && (
+            <div className="mt-4">
+              <EventAddReviewButtonWrapper
+                eventId={event.id}
+                onReviewAdded={onReviewAdded}
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </Link>
   );
 }

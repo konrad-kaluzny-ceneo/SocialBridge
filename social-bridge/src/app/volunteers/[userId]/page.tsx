@@ -1,3 +1,4 @@
+import EventsOrganizedByUser from "@/components/events/EventsOrganizedByUser";
 import OrganizationRow from "@/components/organization/OrganizationRow";
 import WrapperMaxWidth from "@/components/shared/WrapperMaxWidth";
 import VolunteerHeader from "@/components/volunteers/VolunteerHeader";
@@ -28,6 +29,7 @@ export default async function VolunteersPage({ params }: Props) {
       {dbUser?.organizationId && dbUser.isApprovedMember && (
         <OrganizationRow organizationId={dbUser.organizationId} showImages />
       )}
+      <EventsOrganizedByUser userId={userId} />
     </WrapperMaxWidth>
   );
 }

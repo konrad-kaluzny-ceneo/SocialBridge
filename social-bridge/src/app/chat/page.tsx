@@ -1,12 +1,7 @@
 "use client";
 
-import ChatWrapper from "@/components/chat/ChatWrapper";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import ChatSkeleton from "@/components/chat/ChatSkeleton";
 import { trpc } from "@/server/client";
-import { currentUser } from "@clerk/nextjs/server";
-import { MoveLeft } from "lucide-react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default function ChatUndefinedPage() {
@@ -16,12 +11,12 @@ export default function ChatUndefinedPage() {
   if (isError) return null;
 
   if (chats.length === 0) {
-    redirect("/organizations");
+    return <ChatSkeleton />;
   }
 
   const chatToShow = chats[0];
   if (!chatToShow) {
-    redirect("/organizations");
+    return <ChatSkeleton />;
   }
 
   redirect(`/chat/${chatToShow.id}`);

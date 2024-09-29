@@ -58,7 +58,10 @@ export default function OrganizationPartnerships({ organizationId }: Props) {
         </motion.div>
         {userCanInitPartnership && (
           <div className="mt-8">
-            <InitPartnershipProcessDialog organizationId={organizationId} />
+            <InitPartnershipProcessDialog
+              organizationId={organizationId}
+              eventId={null}
+            />
           </div>
         )}
       </CardContent>

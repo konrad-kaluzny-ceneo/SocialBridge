@@ -42,10 +42,12 @@ import { Textarea } from "../ui/textarea";
 
 type Props = {
   organizationId: string;
+  eventId: string | null;
 };
 
 export default function InitPartnershipProcessDialog({
   organizationId,
+  eventId,
 }: Props) {
   const router = useRouter();
   const form = useForm<InitPartnershipProcessRequest>({
@@ -55,6 +57,7 @@ export default function InitPartnershipProcessDialog({
       message: "",
       givePartnershipTags: [],
       searchPartnershipTags: [],
+      eventId: eventId || undefined,
     },
   });
 
@@ -94,7 +97,7 @@ export default function InitPartnershipProcessDialog({
       <DialogTrigger
         className={cn(buttonVariants(), "flex items-center xl:w-fit")}
       >
-        <PlusIcon className="mr-2" /> Dodaj współpracę
+        <PlusIcon className="mr-2" /> Zaproponuj współpracę
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

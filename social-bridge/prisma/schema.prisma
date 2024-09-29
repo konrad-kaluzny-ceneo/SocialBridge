@@ -23,15 +23,14 @@ model User {
   username      String?   @unique
   image         String?
 
-  Organization   Organization? @relation(fields: [organizationId], references: [id])
-  organizationId String?
-  isApprovedMember Boolean @default(false)
+  Organization     Organization? @relation(fields: [organizationId], references: [id])
+  organizationId   String?
+  isApprovedMember Boolean       @default(false)
 
   TeamMemberDetails   TeamMemberDetails? @relation(fields: [teamMemberDetailsId], references: [id])
   teamMemberDetailsId String?            @unique
 
-  ReviewsGiven    Review[] @relation("ReviewsGiven")
-  ReviewsReceived Review[] @relation("ReviewsReceived")
+  Reviews Review[]
 
   Messages Message[]
 
@@ -117,6 +116,22 @@ model Event {
 
   @@index([addressId])
   @@index([eventOrganizerId])
+}
+
+model Review {
+  id String @id @default(cuid())
+
+  Event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+
+  value   Int
+  comment String
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@index([eventId])
+  @@index([userId])
 }
 
 enum OrganizationType {
@@ -221,26 +236,6 @@ model Partnership {
   @@index([organizerId, partnerId])
   @@index([eventId])
   @@index([chatId])
-}
-
-model Review {
-  id String @id @default(cuid())
-
-  Reviewer   User?   @relation("ReviewsGiven", fields: [reviewerId], references: [id])
-  reviewerId String?
-
-  ReviewedUser   User?   @relation("ReviewsReceived", fields: [reviewedUserId], references: [id])
-  reviewedUserId String?
-
-  Event   Event  @relation(fields: [eventId], references: [id])
-  eventId String
-
-  value   Int
-  comment String
-
-  @@index([reviewerId])
-  @@index([reviewedUserId])
-  @@index([eventId])
 }
 
 model TeamMemberDetails {
@@ -369,3 +364,12 @@ model MessageWithAi {
   @@index([userId])
   @@index([chatId])
 }
+
+model File {
+  id String @id @default(cuid())
+
+  key      String
+  fileName String
+  url      String
+}
+

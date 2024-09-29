@@ -24,7 +24,7 @@ export default function ChatWrapper({ chatId, userId }: Props) {
 
   return (
     <ChatContextProvider chatId={chatId}>
-      <div className="flex w-full flex-col md:flex-row">
+      <div className="flex w-full flex-col md:flex-row p-2">
         {/* left side */}
         <div className="w-full xl:w-1/3">
           <UserChatsList />
