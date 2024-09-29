@@ -25,6 +25,7 @@ model User {
 
   Organization   Organization? @relation(fields: [organizationId], references: [id])
   organizationId String?
+  isApprovedMember Boolean @default(false)
 
   TeamMemberDetails   TeamMemberDetails? @relation(fields: [teamMemberDetailsId], references: [id])
   teamMemberDetailsId String?            @unique
@@ -36,6 +37,13 @@ model User {
 
   ChatsWithAi    ChatWithAi[]
   MessagesWithAi MessageWithAi[]
+
+  // Volunteer Profile Properties
+  volunteerExperience String?
+  volunteerSkills     String?
+  volunteerProjects   String?
+  volunteerRole       String?
+  volunteerStrengths  String?
 
   @@index([organizationId])
   @@index([teamMemberDetailsId])

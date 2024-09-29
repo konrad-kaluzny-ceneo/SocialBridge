@@ -20,7 +20,9 @@ export const CreateOrganizationValidator = z.object({
 
   sociamImpactStrategy: z
     .string()
-    .min(1, { message: "Strategia wpływu społecznego organizacji jest wymagana" }),
+    .min(1, {
+      message: "Strategia wpływu społecznego organizacji jest wymagana",
+    }),
 
   businessGoals: z
     .string()
@@ -32,15 +34,21 @@ export const CreateOrganizationValidator = z.object({
 
   projectsToRealize: z
     .string()
-    .min(1, { message: "Projekty do realizacji przez organizację są wymagane" }),
+    .min(1, {
+      message: "Projekty do realizacji przez organizację są wymagane",
+    }),
 
   searchPartnershipTags: z
     .array(z.nativeEnum(PartnershipTag))
-    .min(1, { message: "Tagi wyszukiwania partnerstwa organizacji są wymagane" }),
+    .min(1, {
+      message: "Tagi wyszukiwania partnerstwa organizacji są wymagane",
+    }),
 
   givePartnershipTags: z
     .array(z.nativeEnum(PartnershipTag))
-    .min(1, { message: "Tagi oferowanego partnerstwa organizacji są wymagane" }),
+    .min(1, {
+      message: "Tagi oferowanego partnerstwa organizacji są wymagane",
+    }),
 
   street: z.string().min(3).max(60),
   city: z.string().min(3).max(60),
@@ -62,3 +70,30 @@ export type CreateOrganizationRequest = z.infer<
 >;
 
 export type GetOrganizationRequest = z.infer<typeof GetOrganizationValidator>;
+
+export const JoinToOrganizationValidator = z.object({
+  organizationId: z.string(),
+});
+
+export type JoinToOrganizationRequest = z.infer<
+  typeof JoinToOrganizationValidator
+>;
+
+export const AcceptJoinToOrganizationRequestValidator = z.object({
+  organizationId: z.string(),
+  userId: z.string(),
+});
+
+export type AcceptJoinToOrganizationRequestRequest = z.infer<
+  typeof AcceptJoinToOrganizationRequestValidator
+>;
+
+export const RejectJoinToOrganizationRequestValidator = z.object({
+  organizationId: z.string(),
+  userId: z.string(),
+});
+
+export type RejectJoinToOrganizationRequestRequest = z.infer<
+  typeof RejectJoinToOrganizationRequestValidator
+>;
+

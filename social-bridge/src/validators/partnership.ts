@@ -50,3 +50,11 @@ export const UserCanAcceptPartnershipValidator = z.object({
 export type UserCanAcceptPartnershipRequest = z.infer<
   typeof UserCanAcceptPartnershipValidator
 >;
+
+export const UserCanInitPartnershipValidator = z.object({
+  organizationId: z.string().min(1, { message: "ID organizacji jest wymagane" }),
+});
+
+export type UserCanInitPartnershipRequest = z.infer<
+  typeof UserCanInitPartnershipValidator
+>;

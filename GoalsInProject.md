@@ -13,26 +13,24 @@
   - [ ] Biznes
     - [x] Cele biznesowe
     - [ ] Budżety na działania społeczne
+      - [ ] Przypisywanie budżetu do Eventu
     - [ ] Lista grantów zaplanowanych
-- [ ] Dodawanie usera do organizacji
+- [x] Dodawanie usera do organizacji
 
-- [ ] Konto usera
+- [x] Konto usera
 
-  - [ ] Doświadczenia
-  - [ ] Umiejętności
-  - [ ] Mocne strony
-  - [ ] Projekty
+  - [x] Doświadczenia
+  - [x] Umiejętności
+  - [x] Mocne strony
+  - [x] Projekty
 
 - [ ] Konto organizacyjne
-
   - [ ] Generowanie raportu NGO i form powiązanych
-  - [ ] Propozycje partnerów
 
-- [ ] Przestrzeń do matchowania
-
+- [x] Przestrzeń do matchowania
   - [x] Przycisk rozpocznij współpracę na organizacji
   - [x] Przycisk rozpocznij współpracę na eventcie
-  - [ ] Przypisywanie budżetu do Eventu
+  - [ ] Propozycje partnerów jako Rekomendacje Personalizowane
 
 - [x] Tworzenie wydarzeń
   - [x] Lista wydarzeń

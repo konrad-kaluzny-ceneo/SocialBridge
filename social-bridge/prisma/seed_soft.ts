@@ -380,7 +380,6 @@ async function main() {
     });
   }
 
-  
   // Events
   const event = await prisma.event.create({
     data: {
@@ -430,7 +429,7 @@ async function main() {
       fileName: "it-workship2.jpg",
     },
   });
-  
+
   const businessLogo3 = await prisma.photo.create({
     data: {
       url: "/images/hands3.jpg",
@@ -509,6 +508,73 @@ async function main() {
       },
     },
   });
+
+  // Volunteers of NGO
+  let volunter1 = await prisma.user.findUnique({
+    where: {
+      username: "volunteer1",
+    },
+  });
+
+  if (!volunter1) {
+    volunter1 = await prisma.user.create({
+      data: {
+        email: "volunteer1@prisma.io",
+        name: "Volunteer 1",
+        emailVerified: new Date(),
+        username: "volunteer1",
+        image: "https://i.pravatar.cc/150?img=10",
+        volunteerRole: "Mentor",
+        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        organizationId: ngoOrganization.id,
+        isApprovedMember: true,
+      },
+    });
+  }
+
+  let volunteer2 = await prisma.user.findUnique({
+    where: {
+      username: "volunteer2",
+    },
+  });
+
+  if (!volunteer2) {
+    volunteer2 = await prisma.user.create({
+      data: {
+        email: "volunteer2@prisma.io",
+        name: "Volunteer 2",
+        emailVerified: new Date(),
+        username: "volunteer2",
+        image: "https://i.pravatar.cc/150?img=11",
+        volunteerRole: "Mentor",
+        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        organizationId: ngoOrganization.id,
+        isApprovedMember: true,
+      },
+    });
+  }
+
+  let volunteer3 = await prisma.user.findUnique({
+    where: {
+      username: "volunteer3",
+    },
+  });
+
+  if (!volunteer3) {
+    volunteer3 = await prisma.user.create({
+      data: {
+        email: "volunteer3@prisma.io",
+        name: "Volunteer 3",
+        emailVerified: new Date(),
+        username: "volunteer3",
+        image: "https://i.pravatar.cc/150?img=12",
+        volunteerRole: "Mentor",
+        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        organizationId: ngoOrganization.id,
+        isApprovedMember: false,
+      },
+    });
+  }
 }
 
 main()

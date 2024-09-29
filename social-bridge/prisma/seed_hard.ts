@@ -3,7 +3,7 @@ import { $Enums, PartnershipTag, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const isAdminOrganizationCreated = false;
+  const isAdminOrganizationCreated = true;
 
   await prisma.organization.deleteMany();
   await prisma.photo.deleteMany();
@@ -70,6 +70,7 @@ async function main() {
       emailVerified: new Date(),
       username: null,
       image: process.env.SEED_ADMIN_USER_IMAGE,
+      isApprovedMember: true,
     },
   });
 
@@ -101,6 +102,34 @@ async function main() {
             id: adminUser.id,
           },
         },
+      },
+    });
+
+    const volunteer3 = await prisma.user.create({
+      data: {
+        email: "volunteer3@prisma.io",
+        name: "Volunteer 3",
+        emailVerified: new Date(),
+        username: "volunteer3",
+        image: "https://i.pravatar.cc/150?img=12",
+        volunteerRole: "Mentor",
+        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        organizationId: adminOrganization.id,
+        isApprovedMember: false,
+      },
+    });
+
+    const volunteer4 = await prisma.user.create({
+      data: {
+        email: "volunteer4@prisma.io",
+        name: "Volunteer 4",
+        emailVerified: new Date(),
+        username: "volunteer4",
+        image: "https://i.pravatar.cc/150?img=13",
+        volunteerRole: "Mentor",
+        volunteerStrengths: "Programowanie, matematyka, fizyka",
+        organizationId: adminOrganization.id,
+        isApprovedMember: true,
       },
     });
   }
@@ -323,7 +352,7 @@ async function main() {
       fileName: "it-workship2.jpg",
     },
   });
-  
+
   const businessLogo3 = await prisma.photo.create({
     data: {
       url: "/images/hands3.jpg",
@@ -402,8 +431,35 @@ async function main() {
       },
     },
   });
-  
-  
+
+  // Volunteers of NGO
+  const volunteer1 = await prisma.user.create({
+    data: {
+      email: "volunteer1@prisma.io",
+      name: "Volunteer 1",
+      emailVerified: new Date(),
+      username: "volunteer1",
+      image: "https://i.pravatar.cc/150?img=10",
+      volunteerRole: "Mentor",
+      volunteerStrengths: "Programowanie, matematyka, fizyka",
+      organizationId: ngoOrganization.id,
+      isApprovedMember: true,
+    },
+  });
+
+  const volunteer2 = await prisma.user.create({
+    data: {
+      email: "volunteer2@prisma.io",
+      name: "Volunteer 2",
+      emailVerified: new Date(),
+      username: "volunteer2",
+      image: "https://i.pravatar.cc/150?img=11",
+      volunteerRole: "Mentor",
+      volunteerStrengths: "Programowanie, matematyka, fizyka",
+      organizationId: ngoOrganization.id,
+      isApprovedMember: true,
+    },
+  });
 }
 
 main()

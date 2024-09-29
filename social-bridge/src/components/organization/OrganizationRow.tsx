@@ -1,6 +1,5 @@
 "use client";
 
-import { Organization } from "@prisma/client";
 import { trpc } from "@/server/client";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,12 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 type Props = {
-  organization: Organization;
+  organizationId: string;
   showImages?: boolean;
 };
 
 export default function OrganizationRow({
-  organization,
+  organizationId,
   showImages = false,
 }: Props) {
   const {
@@ -21,7 +20,7 @@ export default function OrganizationRow({
     isLoading,
     isError,
   } = trpc.organization.getOrganization.useQuery({
-    organizationId: organization.id,
+    organizationId: organizationId,
   });
 
   if (isLoading) return null;
@@ -29,7 +28,7 @@ export default function OrganizationRow({
   if (!organizationDb) return null;
 
   return (
-    <Link href={`/organizations/${organization.id}`} className="block w-full">
+    <Link href={`/organizations/${organizationId}`} className="block w-full">
       <Card className="w-full transition-shadow duration-300 hover:shadow-md">
         <CardHeader className="flex flex-row items-center gap-4">
           {showImages && (

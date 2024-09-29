@@ -24,7 +24,7 @@ export default function OrganizationsList({
       {organizations.map((organization) => (
         <OrganizationRow
           key={organization.id}
-          organization={organization}
+          organizationId={organization.id}
           showImages={showImages}
         />
       ))}

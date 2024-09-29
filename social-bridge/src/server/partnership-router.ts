@@ -7,6 +7,7 @@ import {
   GetOrganizationPartnersValidator,
   AcceptPartnershipByChatValidator,
   UserCanAcceptPartnershipValidator,
+  UserCanInitPartnershipValidator,
 } from "@/validators/partnership";
 
 export const partnershipRouter = router({
@@ -238,5 +239,63 @@ export const partnershipRouter = router({
       }
 
       return false;
+    }),
+
+  userCanInitPartnership: privateProcedure
+    .input(UserCanInitPartnershipValidator)
+    .query(async ({ ctx, input }) => {
+      const { userId } = ctx;
+
+      const userWithOrganization = await db.user.findUnique({
+        where: { id: userId },
+        include: { Organization: true },
+      });
+
+      if (!userWithOrganization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Użytkownik nie został znaleziony",
+        });
+      }
+
+      if (!userWithOrganization?.Organization) {
+        return false;
+      }
+
+      const { organizationId } = input;
+
+      const organization = await db.organization.findUnique({
+        where: { id: organizationId },
+      });
+
+      if (!organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja nie została znaleziona",
+        });
+      }
+
+      // check if user organization is not already partnered with organizationId
+      const partnershipsAsOrganizer = await db.partnership.findMany({
+        where: {
+          organizerId: userWithOrganization.Organization.id,
+          partnerId: organizationId,
+        },
+      });
+
+      if (partnershipsAsOrganizer.length > 0) {
+        return false;
+      }
+
+      const partnershipAsPartner = await db.partnership.findMany({
+        where: {
+          partnerId: userWithOrganization.Organization.id,
+          organizerId: organizationId,
+        },
+      });
+
+      if (partnershipAsPartner.length > 0) {
+        return false;
+      }
     }),
 });

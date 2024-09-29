@@ -1,6 +1,9 @@
 import {
+  AcceptJoinToOrganizationRequestValidator,
   CreateOrganizationValidator,
   GetOrganizationValidator,
+  JoinToOrganizationValidator,
+  RejectJoinToOrganizationRequestValidator,
 } from "@/validators/organization";
 import { privateProcedure, publicProcedure, router } from "./trpc";
 import { db } from "@/db";
@@ -157,4 +160,171 @@ export const organizationRouter = router({
 
     return organizationsWithCoordinates;
   }),
+
+  joinToOrganization: privateProcedure
+    .input(JoinToOrganizationValidator)
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+
+      const user = await db.user.findFirst({
+        where: { id: userId },
+      });
+
+      if (!user) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Użytkownik nie został znaleziony",
+        });
+      }
+
+      const { organizationId } = input;
+
+      const organization = await db.organization.findFirst({
+        where: { id: organizationId },
+      });
+
+      if (!organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja nie została znaleziona",
+        });
+      }
+
+      if (user.organizationId) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Użytkownik już jest członkiem innej organizacji",
+        });
+      }
+
+      await db.organization.update({
+        where: { id: organizationId },
+        data: {
+          Team: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      });
+
+      return {
+        success: true,
+      };
+    }),
+
+  getJoinToOrganizationPending: privateProcedure
+    .input(JoinToOrganizationValidator)
+    .query(async ({ input }) => {
+      const { organizationId } = input;
+
+      const usersOrganization = await db.organization.findMany({
+        where: {
+          id: organizationId,
+        },
+        include: {
+          Team: true,
+        },
+      });
+
+      const usersWithPendingStatus = usersOrganization
+        .map((organization) => organization.Team)
+        .flat()
+        .filter((user) => !user.isApprovedMember);
+
+      return usersWithPendingStatus;
+    }),
+
+  acceptJoinToOrganizationRequest: privateProcedure
+    .input(AcceptJoinToOrganizationRequestValidator)
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+
+      const userAdmin = await db.user.findFirst({
+        where: { id: userId },
+      });
+
+      if (!userAdmin) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Użytkownik nie został znaleziony",
+        });
+      }
+
+      const organization = await db.organization.findFirst({
+        where: { id: input.organizationId },
+      });
+
+      if (!organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja nie została znaleziona",
+        });
+      }
+
+      if (userAdmin.organizationId !== organization.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Użytkownik nie jest administratorem organizacji",
+        });
+      }
+
+      await db.user.update({
+        where: { id: input.userId },
+        data: {
+          isApprovedMember: true,
+        },
+      });
+
+      return {
+        success: true,
+      };
+    }),
+
+  rejectJoinToOrganizationRequest: privateProcedure
+    .input(RejectJoinToOrganizationRequestValidator)
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = ctx;
+
+      const userAdmin = await db.user.findFirst({
+        where: { id: userId },
+      });
+
+      if (!userAdmin) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Użytkownik nie został znaleziony",
+        });
+      }
+
+      const organization = await db.organization.findFirst({
+        where: { id: input.organizationId },
+      });
+
+      if (!organization) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Organizacja nie została znaleziona",
+        });
+      }
+
+      if (userAdmin.organizationId !== organization.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Użytkownik nie jest administratorem organizacji",
+        });
+      }
+
+      await db.user.update({
+        where: { id: input.userId },
+        data: {
+          isApprovedMember: false,
+          organizationId: null,
+        },
+      });
+
+      return {
+        success: true,
+      };
+    }),
 });

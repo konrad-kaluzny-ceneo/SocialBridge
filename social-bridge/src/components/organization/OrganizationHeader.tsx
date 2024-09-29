@@ -3,6 +3,7 @@
 import { trpc } from "@/server/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import OrganizationImageBig from "./OrganizationImageBig";
 
 type Props = {
   organizationId: string;
@@ -17,13 +18,15 @@ export default function OrganizationHeader({ organizationId }: Props) {
     organizationId,
   });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error loading organization data</div>;
-  if (!organization) return <div>Organization not found</div>;
+  if (isLoading) return null;
+  if (isError) return null;
+  if (!organization) return null;
 
   return (
     <Card className="mt-4 w-full">
       <CardHeader>
+        <OrganizationImageBig organizationId={organization.id} />
+
         <CardTitle className="text-3xl font-bold">
           {organization.name}
         </CardTitle>
