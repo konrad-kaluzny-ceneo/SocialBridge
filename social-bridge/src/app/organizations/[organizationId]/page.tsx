@@ -1,6 +1,7 @@
 import JoinToOrganizationRequestsList from "@/components/organization/JoinToOrganizationRequestsList";
 import OrganizationHeader from "@/components/organization/OrganizationHeader";
 import OrganizationImageBig from "@/components/organization/OrganizationImageBig";
+import OrganizationTeam from "@/components/organization/OrganizationTeam";
 import OrganizationPartnerships from "@/components/partnership/OrganizationPartnerships";
 import WrapperMaxWidth from "@/components/shared/WrapperMaxWidth";
 import JoinToOrganizationButton from "@/components/volunteers/JoinToOrganizationButton";
@@ -43,6 +44,8 @@ export default async function OrganizationPage({
       <JoinToOrganizationButton organizationId={organization.id} />
 
       <OrganizationPartnerships organizationId={organization.id} />
+
+      <OrganizationTeam organizationId={organization.id} />
 
       {isAdminOfOrganization && (
         <JoinToOrganizationRequestsList organizationId={organization.id} />
